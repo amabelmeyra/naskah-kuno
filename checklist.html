@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="parchment">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milestones — JARANAN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700&family=Lato:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    [data-theme="parchment"] {
+      --bg: #F5EFE0; --bg-card: #FEFCF8; --bg-surface: #EDE3CE; --bg-dark: #E0D4BC;
+      --text: #1E1008; --text2: #48301F; --text3: #72503E;
+      --gold: #9B7319; --gold-btn: #B8860B; --gold-light: #D4A840;
+      --blue: #1B4E8B; --green: #1E6B3E; --red: #C0392B;
+      --border: #DDD0B8; --border2: #C8B898;
+      --disp-font: 'Playfair Display', serif; --body-font: 'Lato', sans-serif;
+    }
+    [data-theme="heritage"] {
+      --bg: #181C2A; --bg-card: #1F2540; --bg-surface: #252D4C; --bg-dark: #2E3860;
+      --text: #EDF0FA; --text2: #9BAAC8; --text3: #5C6A8A;
+      --gold: #E8B84B; --gold-btn: #D4A030; --gold-light: #F5CC60;
+      --blue: #6090E8; --green: #40B878; --red: #E05A50;
+      --border: rgba(130,155,220,0.14); --border2: rgba(130,155,220,0.26);
+      --disp-font: 'Cormorant Garamond', serif; --body-font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--body-font); background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.4s, color 0.4s; }
+    h1,h2,h3,h4 { font-family: var(--disp-font); }
+
+    .topbar {
+      background: var(--bg-surface); border-bottom: 1px solid var(--border);
+      padding: 0.85rem clamp(1rem,4vw,3rem);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+    }
+    .topbar-brand { display: flex; align-items: center; gap: 0.65rem; }
+    .topbar-badge {
+      width: 30px; height: 30px; border-radius: 6px; background: var(--blue); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.55rem; font-weight: 900; line-height: 1.2; text-align: center;
+    }
+    .topbar-title { font-family: var(--disp-font); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; }
+    .topbar-sub { font-size: 0.58rem; color: var(--text3); letter-spacing: 0.04em; }
+    .topbar-nav { display: flex; gap: 0.55rem; align-items: center; }
+    .nav-lnk {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.69rem; font-weight: 600; text-decoration: none;
+      border-radius: 999px; padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border); background: var(--bg-surface);
+      color: var(--text2); cursor: pointer; white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .nav-lnk .arr { display: inline-block; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .nav-lnk:hover { color: var(--text); border-color: var(--text3); }
+    .nav-lnk:hover .arr { transform: translateX(-3px); }
+    .btn-dev {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.69rem; font-weight: 600; text-decoration: none;
+      border-radius: 999px; padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border); background: var(--bg-surface);
+      color: var(--text3); cursor: pointer; white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .btn-dev svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .btn-changelog svg { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn-changelog:hover { color: var(--blue); border-color: var(--blue); box-shadow: 0 2px 8px rgba(96,144,232,0.15); }
+    .btn-changelog:hover svg { transform: translateY(-2px) rotate(-8deg); }
+    .btn-theme-sm {
+      display: inline-flex; align-items: center; gap: 0.32rem;
+      font-size: 0.7rem; font-weight: 600; cursor: pointer;
+      background: var(--bg-surface); color: var(--text2);
+      border: 1px solid var(--border2); border-radius: 999px;
+      padding: 0.32rem 0.8rem; transition: all 0.25s;
+    }
+    .btn-theme-sm svg { width: 12px; height: 12px; transition: transform 0.5s ease; }
+    .btn-theme-sm:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-theme-sm:hover svg { transform: rotate(25deg); }
+    .btn-theme-sm.spin svg { animation: themeSpin 0.45s ease; }
+    @keyframes themeSpin {
+      0%   { transform: rotate(-180deg) scale(0.6); opacity: 0; }
+      100% { transform: rotate(0deg) scale(1); opacity: 1; }
+    }
+
+    .page-wrap { max-width: 960px; margin: 0 auto; padding: 3rem clamp(1rem,4vw,3rem) 5rem; }
+
+    .page-hd { margin-bottom: 2.5rem; }
+    .page-lbl { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .page-title { font-size: clamp(1.8rem,4vw,2.8rem); letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .page-desc { font-size: 0.85rem; color: var(--text3); }
+
+    /* Progress overview */
+    .progress-overview {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+      gap: 1rem; margin-bottom: 3rem;
+    }
+    .ov-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.1rem; text-align: center;
+    }
+    .ov-num { font-family: var(--disp-font); font-size: 2rem; font-weight: 700; line-height: 1; }
+    .ov-num.done   { color: var(--green); }
+    .ov-num.active { color: var(--blue); }
+    .ov-num.todo   { color: var(--text3); }
+    .ov-lbl { font-size: 0.68rem; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.2rem; }
+
+    .ov-progressbar {
+      height: 5px; background: var(--bg-dark); border-radius: 999px;
+      margin-top: 0.55rem; overflow: hidden;
+    }
+    .ov-progressbar-fill { height: 100%; border-radius: 999px; transition: width 1s ease; }
+
+    /* Stage cards */
+    .stage-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .stage-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+    }
+    .stage-card.active { border-color: var(--blue); }
+    .stage-card.done   { border-color: rgba(30,107,62,0.4); }
+    .stage-card.todo   { opacity: 0.65; }
+
+    .stage-hd {
+      display: flex; align-items: center; gap: 0.85rem;
+      padding: 1.1rem 1.35rem; cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.18s;
+    }
+    .stage-card.done .stage-hd { border-bottom-color: transparent; }
+    .stage-hd:hover { background: var(--bg-surface); }
+
+    .stage-num {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 700;
+    }
+    .sn-done   { background: rgba(30,107,62,0.15); color: var(--green); }
+    .sn-active { background: rgba(27,78,139,0.15); color: var(--blue); }
+    .sn-todo   { background: var(--bg-dark); color: var(--text3); }
+
+    .stage-info { flex: 1; }
+    .stage-title { font-family: var(--disp-font); font-size: 1rem; font-weight: 600; }
+    .stage-subtitle { font-size: 0.74rem; color: var(--text3); margin-top: 0.1rem; }
+
+    .stage-badge {
+      font-size: 0.64rem; font-weight: 700; padding: 0.18rem 0.6rem;
+      border-radius: 999px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
+    }
+    .sb-done   { background: rgba(30,107,62,0.12); color: var(--green); border: 1px solid rgba(30,107,62,0.25); }
+    .sb-active { background: rgba(27,78,139,0.12); color: var(--blue); border: 1px solid rgba(27,78,139,0.25); }
+    .sb-todo   { background: var(--bg-dark); color: var(--text3); border: 1px solid var(--border2); }
+
+    .stage-bar {
+      height: 3px; background: var(--bg-dark);
+    }
+    .stage-bar-fill { height: 100%; transition: width 1s 0.2s ease; }
+
+    .stage-items { padding: 1.1rem 1.35rem; display: flex; flex-direction: column; gap: 0.45rem; }
+    .stage-card.done .stage-items { display: none; }
+
+    .check-row { display: flex; align-items: flex-start; gap: 0.6rem; }
+    .check-ico { flex-shrink: 0; margin-top: 1px; font-size: 0.9rem; }
+    .check-text { font-size: 0.83rem; color: var(--text2); line-height: 1.5; }
+    .check-text.done-txt { color: var(--text3); text-decoration: line-through; }
+
+    /* Toggle icon */
+    .stage-toggle { font-size: 0.75rem; color: var(--text3); transition: transform 0.2s; }
+    .stage-card.done .stage-toggle { display: none; }
+
+    /* Collapsible done stages */
+    .stage-card.done .stage-items { display: none; }
+    .stage-card.done.open .stage-items { display: flex; }
+    .stage-card.done.open .stage-hd { border-bottom: 1px solid var(--border); }
+
+    @media (max-width: 500px) {
+      .stage-hd { padding: 0.85rem 1rem; }
+      .stage-items { padding: 0.85rem 1rem; }
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-badge">DSP<br>MLG</div>
+    <div>
+      <div class="topbar-title">JARANAN</div>
+      <div class="topbar-sub">Dispussipda Kota Malang</div>
+    </div>
+  </div>
+  <div class="topbar-nav">
+    <a class="nav-lnk" href="index.html"><span class="arr">←</span> Beranda</a>
+    <a class="btn-dev btn-changelog" href="changelog.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Changelog
+    </a>
+    <button class="btn-theme-sm" id="themeBtn" onclick="toggleTheme()">
+      <svg id="themeBtnIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeBtnLabel">Heritage</span>
+    </button>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="page-hd">
+    <div class="page-lbl">Development Progress</div>
+    <h1 class="page-title">Milestones</h1>
+    <p class="page-desc">Tracking perkembangan proyek JARANAN dari awal hingga peluncuran.</p>
+  </div>
+
+  <!-- Progress overview -->
+  <div class="progress-overview">
+    <div class="ov-card">
+      <div class="ov-num done" id="ovDone">—</div>
+      <div class="ov-lbl">Selesai</div>
+      <div class="ov-progressbar"><div class="ov-progressbar-fill" id="ovBar" style="background:var(--green);width:0%"></div></div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num active" id="ovActive">—</div>
+      <div class="ov-lbl">Berjalan</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num todo" id="ovTodo">—</div>
+      <div class="ov-lbl">Belum Mulai</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num" style="color:var(--gold-btn);" id="ovTotal">—</div>
+      <div class="ov-lbl">Total Stage</div>
+    </div>
+  </div>
+
+  <!-- Stage cards -->
+  <div class="stage-grid" id="stageGrid"></div>
+</div>
+
+<script>
+const STAGES = [
+  {
+    id: 1, title: "Inisialisasi & Perencanaan", status: "done",
+    subtitle: "Setup proyek, analisis kebutuhan, baca PDF sumber",
+    progress: 100,
+    items: [
+      { done: true,  text: "Setup folder project" },
+      { done: true,  text: "Analisis 2 PDF sumber: desain UI + data naskah" },
+      { done: true,  text: "Buat changelog.html dan checklist.html" },
+      { done: true,  text: "Dokumentasi kebutuhan dan arsitektur proyek" },
+      { done: true,  text: "Tentukan tech stack: HTML + Node.js" }
+    ]
+  },
+  {
+    id: 2, title: "Desain & Frontend", status: "active",
+    subtitle: "Bangun tampilan publik dan panel admin",
+    progress: 80,
+    items: [
+      { done: true,  text: "index.html — SPA publik: beranda, katalog, detail, kontak" },
+      { done: true,  text: "admin.html — dashboard CRUD naskah + login" },
+      { done: true,  text: "changelog.html + checklist.html" },
+      { done: true,  text: "2 tema: Parchment (terang) + Heritage (gelap)" },
+      { done: true,  text: "Responsive mobile: hamburger nav, grid adaptif" },
+      { done: true,  text: "Pencarian & filter: media, aksara, bahasa" },
+      { done: false, text: "Upload gambar asli naskah dari form admin" },
+      { done: false, text: "PDF viewer terintegrasi untuk full teks naskah" }
+    ]
+  },
+  {
+    id: 3, title: "Backend & Database", status: "todo",
+    subtitle: "Database, autentikasi, dan penyimpanan naskah",
+    progress: 0,
+    items: [
+      { done: false, text: "Buat tabel manuscripts di database" },
+      { done: false, text: "Buat tabel users + role (admin, pustakawan, guest)" },
+      { done: false, text: "Hak akses: admin CRUD, guest read-only" },
+      { done: false, text: "Storage bucket untuk gambar dan file PDF naskah" },
+      { done: false, text: "Ganti mock auth dengan autentikasi database" },
+      { done: false, text: "Ganti localStorage dengan database" },
+      { done: false, text: "API endpoint read-only untuk publik" }
+    ]
+  },
+  {
+    id: 4, title: "Integrasi & Testing", status: "todo",
+    subtitle: "Sambungkan frontend ke backend, uji semua fitur",
+    progress: 0,
+    items: [
+      { done: false, text: "Sambungkan index.html ke database query" },
+      { done: false, text: "Sambungkan admin.html ke database CRUD" },
+      { done: false, text: "Test login dengan akun pustakawan asli" },
+      { done: false, text: "Test upload gambar naskah" },
+      { done: false, text: "Test pencarian & filter dengan data nyata" },
+      { done: false, text: "Test di berbagai perangkat (mobile, tablet, desktop)" },
+      { done: false, text: "Test cross-browser (Chrome, Firefox, Edge)" }
+    ]
+  },
+  {
+    id: 5, title: "Migrasi Data", status: "todo",
+    subtitle: "Masukkan data naskah nyata dari PDF ke database",
+    progress: 0,
+    items: [
+      { done: false, text: "Input data 8 naskah dari PDF sumber ke database" },
+      { done: false, text: "Upload foto/scan tiap naskah ke Storage" },
+      { done: false, text: "Verifikasi metadata semua naskah" },
+      { done: false, text: "Link full teks naskah yang tersedia" }
+    ]
+  },
+  {
+    id: 6, title: "DevOps & Deployment", status: "todo",
+    subtitle: "Deploy ke hosting dan setup CI/CD",
+    progress: 0,
+    items: [
+      { done: false, text: "Dokumentasi teknis lengkap" },
+      { done: false, text: "Konfigurasi environment variables" },
+      { done: false, text: "Deploy ke hosting (Vercel / Netlify)" },
+      { done: false, text: "Custom domain (opsional)" },
+      { done: false, text: "Setup HTTPS" }
+    ]
+  },
+  {
+    id: 7, title: "Peluncuran (v1.0.0)", status: "todo",
+    subtitle: "Soft launch ke stakeholder Dispussipda",
+    progress: 0,
+    items: [
+      { done: false, text: "Demo ke tim Dispussipda" },
+      { done: false, text: "Training pustakawan untuk akses admin" },
+      { done: false, text: "Dokumentasi user manual" },
+      { done: false, text: "Soft launch publik" },
+      { done: false, text: "Monitoring & feedback awal" }
+    ]
+  }
+];
+
+function renderStages() {
+  const grid = document.getElementById('stageGrid');
+  let doneCount = 0, activeCount = 0, todoCount = 0;
+
+  grid.innerHTML = STAGES.map(s => {
+    if (s.status === 'done')   doneCount++;
+    if (s.status === 'active') activeCount++;
+    if (s.status === 'todo')   todoCount++;
+
+    const numCls    = s.status === 'done' ? 'sn-done' : s.status === 'active' ? 'sn-active' : 'sn-todo';
+    const badgeCls  = s.status === 'done' ? 'sb-done' : s.status === 'active' ? 'sb-active' : 'sb-todo';
+    const badgeTxt  = s.status === 'done' ? '✓ Selesai' : s.status === 'active' ? '● Berjalan' : '○ Belum Mulai';
+    const barColor  = s.status === 'done' ? 'var(--green)' : s.status === 'active' ? 'var(--blue)' : 'var(--text3)';
+
+    const itemsHTML = s.items.map(it => `
+      <div class="check-row">
+        <span class="check-ico">${it.done ? '✅' : '⬜'}</span>
+        <span class="check-text ${it.done ? 'done-txt' : ''}">${it.text}</span>
+      </div>`).join('');
+
+    return `<div class="stage-card ${s.status}" id="stage-${s.id}">
+      <div class="stage-hd" onclick="toggleStage(${s.id})">
+        <div class="stage-num ${numCls}">${s.id}</div>
+        <div class="stage-info">
+          <div class="stage-title">${s.title}</div>
+          <div class="stage-subtitle">${s.subtitle}</div>
+        </div>
+        <span class="stage-badge ${badgeCls}">${badgeTxt}</span>
+        <span class="stage-toggle">▾</span>
+      </div>
+      <div class="stage-bar"><div class="stage-bar-fill" style="background:${barColor};width:0%" data-w="${s.progress}%"></div></div>
+      <div class="stage-items">${itemsHTML}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('ovDone').textContent   = doneCount;
+  document.getElementById('ovActive').textContent  = activeCount;
+  document.getElementById('ovTodo').textContent    = todoCount;
+  document.getElementById('ovTotal').textContent   = STAGES.length;
+
+  const pct = Math.round((doneCount / STAGES.length) * 100);
+  setTimeout(() => {
+    document.getElementById('ovBar').style.width = pct + '%';
+    document.querySelectorAll('.stage-bar-fill').forEach(el => {
+      el.style.width = el.getAttribute('data-w');
+    });
+  }, 150);
+}
+
+function toggleStage(id) {
+  const el = document.getElementById('stage-' + id);
+  if (!el) return;
+  if (el.classList.contains('done')) {
+    el.classList.toggle('open');
+  }
+}
+
+const THEME_ICONS = {
+  sun: '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+  moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+};
+function syncThemeBtn(theme) {
+  const icon = document.getElementById('themeBtnIcon');
+  const label = document.getElementById('themeBtnLabel');
+  if (!icon || !label) return;
+  icon.innerHTML = theme === 'parchment' ? THEME_ICONS.moon : THEME_ICONS.sun;
+  label.textContent = theme === 'parchment' ? 'Heritage' : 'Parchment';
+  const btn = document.getElementById('themeBtn');
+  btn.classList.add('spin');
+  btn.addEventListener('animationend', () => btn.classList.remove('spin'), { once: true });
+}
+function toggleTheme() {
+  const cur  = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'parchment' ? 'heritage' : 'parchment';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('jaranan-theme', next);
+  syncThemeBtn(next);
+}
+
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('jaranan-theme') || 'parchment';
+  document.documentElement.setAttribute('data-theme', saved);
+  syncThemeBtn(saved);
+  renderStages();
+});
+</script>
+</body>
+</html>

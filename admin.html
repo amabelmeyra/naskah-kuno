@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="parchment">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARANAN Admin — Dispussipda Kota Malang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    [data-theme="parchment"] {
+      --bg:         #F5EFE0; --bg-card:    #FEFCF8; --bg-surface: #EDE3CE;
+      --bg-dark:    #E0D4BC; --text:       #1E1008; --text2:      #48301F;
+      --text3:      #72503E; --gold:       #9B7319; --gold-btn:   #B8860B;
+      --gold-light: #D4A840; --blue:       #1B4E8B; --blue2:      #2563AC;
+      --red:        #C0392B; --red2:       #E74C3C; --green:      #1E6B3E; --green2: #27AE60;
+      --border:     #DDD0B8; --border2:    #C8B898;
+      --nav-bg:     rgba(245,239,224,0.95);
+      --shadow:     0 2px 12px rgba(44,24,16,0.10); --shadow2: 0 8px 30px rgba(44,24,16,0.16);
+      --disp-font:  'Playfair Display', serif; --body-font: 'Lato', sans-serif;
+    }
+    [data-theme="heritage"] {
+      --bg:         #181C2A; --bg-card:    #1F2540; --bg-surface: #252D4C;
+      --bg-dark:    #2E3860; --text:       #EDF0FA; --text2:      #9BAAC8;
+      --text3:      #5C6A8A; --gold:       #E8B84B; --gold-btn:   #D4A030;
+      --gold-light: #F5CC60; --blue:       #6090E8; --blue2:      #70A8F8;
+      --red:        #E05A50; --red2:       #F07060; --green:      #40B878; --green2: #50D090;
+      --border:     rgba(130,155,220,0.14); --border2: rgba(130,155,220,0.26);
+      --nav-bg:     rgba(24,28,42,0.96);
+      --shadow:     0 2px 12px rgba(0,0,0,0.38); --shadow2: 0 8px 30px rgba(0,0,0,0.52);
+      --disp-font:  'Cormorant Garamond', serif; --body-font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--body-font); background: var(--bg); color: var(--text);
+      line-height: 1.6; overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+    h1,h2,h3,h4,h5 { font-family: var(--disp-font); }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: var(--body-font); cursor: pointer; }
+
+    /* ---- NAV ---- */
+    .topnav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300; height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1rem,4vw,3rem);
+      background: var(--nav-bg); backdrop-filter: blur(14px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.65rem; }
+    .brand-badge {
+      width: 34px; height: 34px; border-radius: 6px;
+      background: var(--blue); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.58rem; font-weight: 900; line-height: 1.2; text-align: center;
+    }
+    .brand-title { font-family: var(--disp-font); font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; }
+    .brand-sub { font-size: 0.55rem; color: var(--text3); letter-spacing: 0.04em; line-height: 1; margin-top: 1px; }
+    .admin-badge {
+      background: var(--gold-btn); color: #fff;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
+      padding: 0.18rem 0.55rem; border-radius: 999px; text-transform: uppercase;
+    }
+    .nav-right { display: flex; align-items: center; gap: 0.55rem; }
+    .btn-theme {
+      font-size: 0.7rem; background: var(--bg-surface);
+      color: var(--text3); border: 1px solid var(--border2);
+      padding: 0.32rem 0.7rem; border-radius: 999px; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-theme:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-publik {
+      font-size: 0.78rem; color: var(--text2); background: var(--bg-surface);
+      border: 1px solid var(--border); padding: 0.36rem 0.85rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-publik:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-logout {
+      font-size: 0.78rem; color: var(--red); background: none;
+      border: 1px solid var(--border); padding: 0.36rem 0.85rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s; display: none;
+    }
+    .btn-logout.on { display: inline-flex; align-items: center; gap: 0.3rem; }
+    .btn-logout:hover { border-color: var(--red); background: rgba(192,57,43,0.08); }
+    #userLabel { font-size: 0.76rem; color: var(--text3); display: none; }
+    #userLabel.on { display: block; }
+
+    /* ---- PAGES ---- */
+    .pg { display: none; }
+    .pg.on { display: block; }
+
+    /* =======================
+       LOGIN PAGE
+    ======================= */
+    .login-page {
+      min-height: 100vh; padding-top: 62px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 62px 1rem 2rem;
+    }
+    [data-theme="parchment"] .login-page {
+      background:
+        linear-gradient(180deg, rgba(245,239,224,0.6) 0%, rgba(237,227,206,0.85) 100%),
+        repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(155,115,25,0.04) 28px, rgba(155,115,25,0.04) 29px);
+    }
+    [data-theme="heritage"] .login-page {
+      background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(212,168,64,0.07) 0%, transparent 65%), var(--bg);
+    }
+
+    .login-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: clamp(2rem,5vw,3rem);
+      width: 100%; max-width: 420px;
+      box-shadow: var(--shadow2);
+    }
+    .login-logo { text-align: center; margin-bottom: 1.75rem; }
+    .login-logo-badge {
+      width: 52px; height: 52px; border-radius: 10px; background: var(--blue);
+      color: #fff; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 900; line-height: 1.2; text-align: center; margin-bottom: 0.75rem;
+    }
+    .login-logo h2 { font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .login-logo p { font-size: 0.78rem; color: var(--text3); }
+
+    .form-group { margin-bottom: 1.1rem; }
+    .form-label { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em; color: var(--text2); display: block; margin-bottom: 0.4rem; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; background: var(--bg-surface); border: 1px solid var(--border);
+      color: var(--text); padding: 0.6rem 0.9rem; border-radius: 7px;
+      font-size: 0.88rem; font-family: var(--body-font); outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--blue);
+    }
+    .form-input::placeholder { color: var(--text3); }
+    .form-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+    .form-select { appearance: none; cursor: pointer; }
+
+    .error-msg {
+      font-size: 0.77rem; color: var(--red); margin-top: 0.5rem; display: none;
+    }
+    .error-msg.on { display: block; }
+
+    .btn-block {
+      width: 100%; background: var(--blue); color: #fff; border: none;
+      padding: 0.78rem 1.5rem; border-radius: 7px;
+      font-size: 0.87rem; font-weight: 700; letter-spacing: 0.06em;
+      cursor: pointer; transition: background 0.2s; margin-top: 0.5rem;
+    }
+    .btn-block:hover { background: var(--blue2); }
+
+    .login-hint {
+      text-align: center; margin-top: 1rem;
+      font-size: 0.72rem; color: var(--text3);
+    }
+
+    /* =======================
+       DASHBOARD
+    ======================= */
+    .dashboard-page { padding-top: 62px; min-height: 100vh; }
+
+    .dash-hd {
+      background: var(--bg-surface); border-bottom: 1px solid var(--border);
+      padding: 1.75rem clamp(1rem,4vw,3rem);
+    }
+    .dash-hd-row {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .dash-hd h1 { font-size: clamp(1.3rem,3vw,1.9rem); margin-bottom: 0.15rem; }
+    .dash-hd p { font-size: 0.82rem; color: var(--text3); }
+    .btn-tambah {
+      background: var(--gold-btn); color: #fff; border: none;
+      padding: 0.65rem 1.35rem; border-radius: 7px;
+      font-size: 0.83rem; font-weight: 700; letter-spacing: 0.06em;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-tambah:hover { background: var(--text); }
+
+    .stats-row-admin {
+      max-width: 1200px; margin: 1.5rem auto 0;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.5rem;
+      flex: 1; min-width: 130px;
+    }
+    .stat-card-num {
+      font-family: var(--disp-font); font-size: 2rem;
+      font-weight: 700; color: var(--gold-btn); line-height: 1;
+    }
+    .stat-card-lbl { font-size: 0.7rem; color: var(--text3); letter-spacing: 0.09em; text-transform: uppercase; margin-top: 0.2rem; }
+
+    .dash-body { max-width: 1200px; margin: 0 auto; padding: 2rem clamp(1rem,4vw,3rem); }
+
+    /* Table search bar */
+    .table-bar {
+      display: flex; gap: 0.65rem; margin-bottom: 1.2rem; flex-wrap: wrap;
+    }
+    .tbl-input-wrap {
+      flex: 1; min-width: 200px;
+      display: flex; align-items: center; gap: 0.4rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 7px; padding: 0.48rem 0.8rem;
+    }
+    .tbl-input-wrap svg { color: var(--text3); flex-shrink: 0; }
+    .tbl-input {
+      flex: 1; background: none; border: none; outline: none;
+      font-size: 0.84rem; color: var(--text); font-family: var(--body-font);
+    }
+    .tbl-input::placeholder { color: var(--text3); }
+
+    /* Table */
+    .tbl-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+    table.data-tbl { width: 100%; border-collapse: collapse; }
+    .data-tbl th {
+      background: var(--bg-surface); font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text2); padding: 0.85rem 1rem; text-align: left; white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-tbl td {
+      padding: 0.85rem 1rem; font-size: 0.84rem; color: var(--text2);
+      border-bottom: 1px solid var(--border); vertical-align: middle;
+    }
+    .data-tbl tr:last-child td { border-bottom: none; }
+    .data-tbl tr:hover td { background: var(--bg-surface); }
+    .tbl-title { font-weight: 700; color: var(--text); font-family: var(--disp-font); font-size: 0.95rem; }
+    .tbl-badge {
+      display: inline-block; font-size: 0.62rem; font-weight: 700;
+      padding: 0.15rem 0.45rem; border-radius: 4px; letter-spacing: 0.04em;
+    }
+    .tbl-badge-media { background: var(--bg-dark); color: var(--text3); border: 1px solid var(--border2); }
+    .tbl-num { color: var(--text3); font-size: 0.75rem; }
+
+    .btn-act {
+      font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.65rem;
+      border-radius: 5px; border: 1px solid; cursor: pointer; transition: all 0.18s;
+      background: none; white-space: nowrap;
+    }
+    .btn-lihat { color: var(--blue); border-color: var(--blue); }
+    .btn-lihat:hover { background: var(--blue); color: #fff; }
+    .btn-edit  { color: var(--gold-btn); border-color: var(--gold-btn); }
+    .btn-edit:hover  { background: var(--gold-btn); color: #fff; }
+    .btn-hapus { color: var(--red); border-color: var(--red); }
+    .btn-hapus:hover { background: var(--red); color: #fff; }
+
+    .tbl-empty { text-align: center; padding: 3rem; color: var(--text3); font-size: 0.88rem; }
+
+    /* =======================
+       DETAIL VIEW (Admin)
+    ======================= */
+    .admin-view-wrap {
+      max-width: 900px; margin: 0 auto;
+      padding: calc(62px + 2rem) clamp(1rem,4vw,3rem) 4rem;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.78rem; color: var(--text3); background: none; border: none;
+      cursor: pointer; margin-bottom: 0.8rem; transition: color 0.2s; padding: 0;
+    }
+    .back-btn:hover { color: var(--gold); }
+    .view-hd {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 1.75rem;
+    }
+    .view-grid { display: grid; grid-template-columns: 1fr 1.8fr; gap: 2.5rem; align-items: start; }
+    .view-img-box {
+      border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+      background: var(--bg-surface); aspect-ratio: 3/4;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .view-img-ph { font-family: var(--disp-font); font-size: 4rem; font-style: italic; color: var(--border2); }
+    .meta-tbl { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; }
+    .meta-tbl tr { border-bottom: 1px solid var(--border); }
+    .meta-tbl tr:last-child { border-bottom: none; }
+    .meta-tbl td { padding: 0.55rem 0; font-size: 0.85rem; vertical-align: top; }
+    .meta-tbl td:first-child { font-weight: 700; color: var(--text2); width: 42%; padding-right: 0.8rem; }
+    .ringkasan-box {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold); border-radius: 7px; padding: 1.1rem 1.25rem;
+    }
+    .ringkasan-box h4 {
+      font-size: 0.64rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.55rem;
+    }
+    .ringkasan-box p { font-family: var(--disp-font); font-size: 0.98rem; color: var(--text2); line-height: 1.85; }
+
+    /* =======================
+       FORM (Add / Edit)
+    ======================= */
+    .form-page-wrap {
+      max-width: 820px; margin: 0 auto;
+      padding: calc(62px + 2rem) clamp(1rem,4vw,3rem) 4rem;
+    }
+    .form-hd { margin-bottom: 1.75rem; }
+    .form-hd h2 { font-size: clamp(1.3rem,3vw,1.8rem); margin-bottom: 0.2rem; }
+    .form-hd p { font-size: 0.82rem; color: var(--text3); }
+
+    .form-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: clamp(1.5rem,4vw,2.5rem);
+    }
+    .form-section-title {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.1rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+    .check-item { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+    .check-item input[type="checkbox"] {
+      width: 15px; height: 15px; accent-color: var(--blue); cursor: pointer;
+    }
+    .check-item label { font-size: 0.84rem; color: var(--text2); cursor: pointer; }
+
+    .form-actions {
+      display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.75rem;
+      padding-top: 1.25rem; border-top: 1px solid var(--border); flex-wrap: wrap;
+    }
+    .btn-cancel {
+      background: var(--bg-surface); color: var(--text2); border: 1px solid var(--border2);
+      padding: 0.65rem 1.4rem; border-radius: 7px; font-size: 0.84rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-cancel:hover { border-color: var(--text3); color: var(--text); }
+    .btn-save {
+      background: var(--blue); color: #fff; border: none;
+      padding: 0.65rem 1.8rem; border-radius: 7px;
+      font-size: 0.84rem; font-weight: 700; letter-spacing: 0.06em;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-save:hover { background: var(--blue2); }
+
+    /* =======================
+       MODAL
+    ======================= */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center;
+    }
+    .modal-overlay.on { display: flex; }
+    .modal-box {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2.25rem; width: 90%; max-width: 400px;
+      box-shadow: var(--shadow2); text-align: center;
+    }
+    .modal-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .modal-title { font-family: var(--disp-font); font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .modal-desc { font-size: 0.84rem; color: var(--text3); margin-bottom: 1.5rem; }
+    .modal-actions { display: flex; gap: 0.7rem; justify-content: center; }
+    .btn-modal-cancel {
+      background: var(--bg-surface); color: var(--text2); border: 1px solid var(--border2);
+      padding: 0.6rem 1.35rem; border-radius: 7px; font-size: 0.84rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-modal-cancel:hover { border-color: var(--text3); }
+    .btn-modal-hapus {
+      background: var(--red); color: #fff; border: none;
+      padding: 0.6rem 1.35rem; border-radius: 7px; font-size: 0.84rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-modal-hapus:hover { background: var(--red2); }
+
+    /* =======================
+       TOAST
+    ======================= */
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 600;
+      padding: 0.85rem 1.4rem; border-radius: 8px;
+      font-size: 0.84rem; font-weight: 600;
+      box-shadow: var(--shadow2); opacity: 0;
+      transform: translateY(10px); transition: all 0.3s ease;
+      pointer-events: none; max-width: 320px;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.success { background: var(--green); color: #fff; }
+    .toast.error   { background: var(--red);   color: #fff; }
+    .toast.info    { background: var(--blue);  color: #fff; }
+
+    /* =======================
+       RESPONSIVE
+    ======================= */
+    @media (max-width: 760px) {
+      .view-grid { grid-template-columns: 1fr; }
+      .view-img-box { aspect-ratio: 4/3; max-width: 380px; }
+      .form-grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .stats-row-admin { gap: 0.65rem; }
+      .stat-card { min-width: 100px; }
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="topnav">
+  <div class="nav-brand">
+    <div class="brand-badge">DSP<br>MLG</div>
+    <div>
+      <div class="brand-title">JARANAN</div>
+      <div class="brand-sub">Dispussipda Kota Malang</div>
+    </div>
+    <span class="admin-badge">Admin</span>
+  </div>
+  <div class="nav-right">
+    <button class="btn-theme" id="themeBtn" onclick="toggleTheme()">🌙 Heritage</button>
+    <span id="userLabel"></span>
+    <a href="index.html" class="btn-publik">← Publik</a>
+    <button class="btn-logout" id="logoutBtn" onclick="logout()">Keluar ↗</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============================================================
+     LOGIN
+============================================================ -->
+<div id="pg-login" class="pg on">
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-badge">DSP<br>MLG</div>
+        <h2>JARANAN</h2>
+        <p>Masuk sebagai Admin / Pustakawan</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="loginEmail">Email</label>
+        <input class="form-input" id="loginEmail" type="email"
+          placeholder="admin"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="loginPass">Password</label>
+        <input class="form-input" id="loginPass" type="password"
+          placeholder="••••••••"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="error-msg" id="loginErr">Email atau password salah. Coba lagi.</div>
+      <button class="btn-block" onclick="doLogin()">MASUK</button>
+      <p class="login-hint">Demo: admin / admin &nbsp;·&nbsp; atau admin@jaranan.dev / admin123</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     DASHBOARD
+============================================================ -->
+<div id="pg-dashboard" class="pg">
+  <div class="dashboard-page">
+    <div class="dash-hd">
+      <div class="dash-hd-row">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Kelola koleksi naskah kuno Dispussipda Kota Malang</p>
+        </div>
+        <button class="btn-tambah" onclick="pg('tambah')">＋ Tambah Naskah</button>
+      </div>
+      <div class="stats-row-admin">
+        <div class="stat-card">
+          <div class="stat-card-num" id="dashTotal">—</div>
+          <div class="stat-card-lbl">Total Naskah</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-num">6</div>
+          <div class="stat-card-lbl">Jenis Media</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-num">4</div>
+          <div class="stat-card-lbl">Jenis Aksara</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-num" id="dashYear">—</div>
+          <div class="stat-card-lbl">Tahun Terbaru</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-body">
+      <div class="table-bar">
+        <div class="tbl-input-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input class="tbl-input" id="tblSearch" type="text"
+            placeholder="Cari judul, media, aksara..."
+            oninput="filterTable()">
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-tbl" id="dataTable">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Judul Naskah</th>
+              <th>Media</th>
+              <th>Aksara</th>
+              <th>Tanggal Tambah</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     DETAIL VIEW
+============================================================ -->
+<div id="pg-detail" class="pg">
+  <div class="admin-view-wrap" id="detailContent"></div>
+</div>
+
+<!-- ============================================================
+     FORM TAMBAH / EDIT
+============================================================ -->
+<div id="pg-tambah" class="pg">
+  <div class="form-page-wrap">
+    <button class="back-btn" onclick="pg('dashboard')">← Kembali ke Dashboard</button>
+    <div class="form-hd">
+      <h2 id="formTitle">Tambah Naskah Baru</h2>
+      <p id="formSubtitle">Isi semua field yang diperlukan untuk menambahkan naskah ke koleksi.</p>
+    </div>
+    <div class="form-card">
+
+      <div class="form-section-title">Identitas Naskah</div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label" for="fJudul">Judul Naskah <span style="color:var(--red)">*</span></label>
+          <input class="form-input" id="fJudul" type="text" placeholder="contoh: Nahwu">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fIdNaskah">ID Naskah Kuno <span style="color:var(--red)">*</span></label>
+          <input class="form-input" id="fIdNaskah" type="text" placeholder="NRN-XXXXXXXXXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fNoSertifikat">No. Sertifikat</label>
+          <input class="form-input" id="fNoSertifikat" type="text" placeholder="000/MLG/YYYY">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fPerkiraanUmur">Perkiraan Umur</label>
+          <input class="form-input" id="fPerkiraanUmur" type="text" placeholder="contoh: 65 Tahun">
+        </div>
+      </div>
+
+      <div class="form-section-title" style="margin-top:1.5rem;">Deskripsi Fisik</div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label" for="fMedia">Jenis Media <span style="color:var(--red)">*</span></label>
+          <select class="form-select form-input" id="fMedia">
+            <option value="">-- Pilih Media --</option>
+            <option>Lontar</option><option>Kertas HVS</option><option>Daluwang</option>
+            <option>Kertas Eropa</option><option>Buku Tulis</option><option>Kertas Folio Bergaris</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fUkuran">Ukuran Fisik</label>
+          <input class="form-input" id="fUkuran" type="text" placeholder="contoh: 17,5 × 12 cm">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fTahun">Tahun Pendataan</label>
+          <input class="form-input" id="fTahun" type="number" placeholder="2024" min="2000" max="2100">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fKepemilikan">Kepemilikan</label>
+          <input class="form-input" id="fKepemilikan" type="text" placeholder="Dispussipda Kota Malang">
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label" for="fLokasi">Lokasi</label>
+          <input class="form-input" id="fLokasi" type="text" placeholder="Dispussipda Kota Malang">
+        </div>
+      </div>
+
+      <div class="form-section-title" style="margin-top:1.5rem;">Jenis Aksara</div>
+      <div class="checkbox-group" id="aksaraGroup">
+        <label class="check-item"><input type="checkbox" value="Jawa"> <label>Jawa</label></label>
+        <label class="check-item"><input type="checkbox" value="Arab"> <label>Arab</label></label>
+        <label class="check-item"><input type="checkbox" value="Pegon"> <label>Pegon</label></label>
+        <label class="check-item"><input type="checkbox" value="Bali"> <label>Bali</label></label>
+      </div>
+
+      <div class="form-section-title" style="margin-top:1.5rem;">Jenis Bahasa</div>
+      <div class="checkbox-group" id="bahasaGroup">
+        <label class="check-item"><input type="checkbox" value="Jawa"> <label>Jawa</label></label>
+        <label class="check-item"><input type="checkbox" value="Jawa Kuno"> <label>Jawa Kuno</label></label>
+        <label class="check-item"><input type="checkbox" value="Arab"> <label>Arab</label></label>
+        <label class="check-item"><input type="checkbox" value="Pegon"> <label>Pegon</label></label>
+        <label class="check-item"><input type="checkbox" value="Bali"> <label>Bali</label></label>
+      </div>
+
+      <div class="form-section-title" style="margin-top:1.5rem;">Konten</div>
+      <div class="form-group">
+        <label class="form-label" for="fRingkasan">Ringkasan Isi <span style="color:var(--red)">*</span></label>
+        <textarea class="form-textarea" id="fRingkasan" placeholder="Tuliskan ringkasan isi naskah..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="fFullTeks">URL Full Teks (opsional)</label>
+        <input class="form-input" id="fFullTeks" type="url" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="fTanggal">Tanggal Tambah</label>
+        <input class="form-input" id="fTanggal" type="text" placeholder="contoh: 23 Maret 2023">
+      </div>
+
+      <div class="error-msg" id="formErr" style="margin-bottom:0;">Harap isi semua field wajib (*).</div>
+
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="pg('dashboard')">Batal</button>
+        <button class="btn-save" onclick="handleSave()">SIMPAN NASKAH</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ========== MODAL ========== -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <h3 class="modal-title">Hapus Naskah?</h3>
+    <p class="modal-desc" id="modalDesc">Data naskah ini akan dihapus permanen dan tidak dapat dipulihkan.</p>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal()">Batal</button>
+      <button class="btn-modal-hapus" onclick="confirmDelete()">HAPUS</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TOAST ========== -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===========================================================
+   AUTH (Mock — ganti dengan Supabase Auth)
+   TODO: const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+=========================================================== */
+const MOCK_CREDENTIALS = [
+  { email: 'admin', password: 'admin', nama: 'Admin' },
+  { email: 'admin@jaranan.dev', password: 'admin123', nama: 'Admin Jaranan' }
+];
+
+let currentUser = null;
+let deleteTargetId = null;
+let editTargetId = null;
+
+/* ===========================================================
+   DATA
+=========================================================== */
+const DEFAULT_DATA = [
+  { id: 1, judul: "Nahwu", perkiraan_umur: "65 Tahun", jenis_aksara: ["Arab","Pegon","Jawa"], jenis_bahasa: ["Arab","Jawa"], jenis_media: "Daluwang", ukuran_fisik: "17,5 × 12 cm", tahun_pendataan: 2024, no_sertifikat: "111/MLG/1996", id_naskah: "NRN-202406280474", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Naskah berbahasa Arab dan Jawa berisi teks nahwu (tata bahasa Arab), sifat-sifat Allah, tajwid, dan perhitungan Lailatul Qadar.", full_teks: "https://emalangkota.perpustakaan.co.id/home.ks", tanggal_tambah: "23 Maret 2023", gambar: "assets/img/pengguna-04.jpg" },
+  { id: 2, judul: "Usadha", perkiraan_umur: "80 Tahun", jenis_aksara: ["Jawa"], jenis_bahasa: ["Jawa"], jenis_media: "Kertas Eropa", ukuran_fisik: "20 × 15 cm", tahun_pendataan: 2023, no_sertifikat: "112/MLG/1996", id_naskah: "NRN-202406280475", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Pengobatan tradisional Jawa yang diwariskan turun-temurun.", full_teks: null, tanggal_tambah: "15 April 2023", gambar: "assets/img/pengguna-05.jpg" },
+  { id: 3, judul: "Nahwu (Lontar)", perkiraan_umur: "70 Tahun", jenis_aksara: ["Arab","Pegon"], jenis_bahasa: ["Arab","Jawa"], jenis_media: "Lontar", ukuran_fisik: "15 × 10 cm", tahun_pendataan: 2024, no_sertifikat: "113/MLG/1997", id_naskah: "NRN-202406280476", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Kewajiban mukmin terhadap jenazah dan sifat-sifat Allah.", full_teks: null, tanggal_tambah: "2 Juni 2023", gambar: "assets/img/pengguna-06.jpg" },
+  { id: 4, judul: "Bayu Rong Puluh", perkiraan_umur: "100 Tahun", jenis_aksara: ["Jawa"], jenis_bahasa: ["Jawa Kuno"], jenis_media: "Lontar", ukuran_fisik: "30 × 4 cm", tahun_pendataan: 2024, no_sertifikat: "114/MLG/1997", id_naskah: "NRN-202406280477", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Perhitungan hari dan ilmu perbintangan kuno Jawa.", full_teks: null, tanggal_tambah: "10 Juli 2023", gambar: "assets/img/pengguna-07.jpg" },
+  { id: 5, judul: "Serat Wedhatama", perkiraan_umur: "120 Tahun", jenis_aksara: ["Jawa"], jenis_bahasa: ["Jawa"], jenis_media: "Kertas Eropa", ukuran_fisik: "22 × 16 cm", tahun_pendataan: 2024, no_sertifikat: "115/MLG/1997", id_naskah: "NRN-202406280478", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Ajaran moral dan spiritual dalam tembang macapat.", full_teks: null, tanggal_tambah: "20 Agustus 2023", gambar: "assets/img/pengguna-08.jpg" },
+  { id: 6, judul: "Primbon Jawa", perkiraan_umur: "90 Tahun", jenis_aksara: ["Jawa","Arab"], jenis_bahasa: ["Jawa"], jenis_media: "Buku Tulis", ukuran_fisik: "18 × 13 cm", tahun_pendataan: 2023, no_sertifikat: "116/MLG/1998", id_naskah: "NRN-202406280479", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Ramalan, weton, dan kalender Jawa.", full_teks: null, tanggal_tambah: "5 September 2023", gambar: "assets/img/pengguna-09.jpg" },
+  { id: 7, judul: "Suluk Wujil", perkiraan_umur: "150 Tahun", jenis_aksara: ["Pegon"], jenis_bahasa: ["Jawa"], jenis_media: "Daluwang", ukuran_fisik: "25 × 18 cm", tahun_pendataan: 2024, no_sertifikat: "117/MLG/1998", id_naskah: "NRN-202406280480", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Tasawuf Islam Jawa — dialog Sunan Bonang dan Wujil.", full_teks: null, tanggal_tambah: "15 Oktober 2023", gambar: "assets/img/pengguna-10.jpg" },
+  { id: 8, judul: "Babad Malang", perkiraan_umur: "85 Tahun", jenis_aksara: ["Jawa"], jenis_bahasa: ["Jawa"], jenis_media: "Kertas Folio Bergaris", ukuran_fisik: "35 × 22 cm", tahun_pendataan: 2023, no_sertifikat: "118/MLG/1999", id_naskah: "NRN-202406280481", kepemilikan: "Dispussipda Kota Malang", lokasi: "Dispussipda Kota Malang", ringkasan: "Sejarah dan babad pendirian Kota Malang.", full_teks: null, tanggal_tambah: "8 November 2023", gambar: "assets/img/pengguna-11.jpg" }
+];
+
+function getData() {
+  try { const s = localStorage.getItem('jaranan_data'); if (s) return JSON.parse(s); } catch(e) {}
+  return [...DEFAULT_DATA];
+}
+function saveData(d) { localStorage.setItem('jaranan_data', JSON.stringify(d)); }
+function nextId(d) { return d.length ? Math.max(...d.map(m => m.id)) + 1 : 1; }
+
+/* ===========================================================
+   ROUTING
+=========================================================== */
+function pg(name, params = {}) {
+  if (name !== 'login' && !currentUser) { pg('login'); return; }
+  document.querySelectorAll('.pg').forEach(e => e.classList.remove('on'));
+  const el = document.getElementById('pg-' + name);
+  if (!el) return;
+  el.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'detail' && params.id != null) renderDetail(params.id);
+  if (name === 'tambah') {
+    if (params.editId != null) loadEditForm(params.editId);
+    else resetForm();
+  }
+}
+
+/* ===========================================================
+   AUTH
+=========================================================== */
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const user  = MOCK_CREDENTIALS.find(c => c.email === email && c.password === pass);
+  if (!user) {
+    document.getElementById('loginErr').classList.add('on');
+    document.getElementById('loginPass').value = '';
+    return;
+  }
+  document.getElementById('loginErr').classList.remove('on');
+  currentUser = user;
+  document.getElementById('userLabel').textContent = user.nama;
+  document.getElementById('userLabel').classList.add('on');
+  document.getElementById('logoutBtn').classList.add('on');
+  pg('dashboard');
+  showToast('Selamat datang, ' + user.nama + '!', 'success');
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('userLabel').classList.remove('on');
+  document.getElementById('logoutBtn').classList.remove('on');
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value = '';
+  pg('login');
+  showToast('Berhasil keluar.', 'info');
+}
+
+/* ===========================================================
+   DASHBOARD
+=========================================================== */
+function renderDashboard() {
+  const data = getData();
+  document.getElementById('dashTotal').textContent = data.length;
+  const maxYear = data.length ? Math.max(...data.map(d => d.tahun_pendataan || 0)) : '—';
+  document.getElementById('dashYear').textContent = maxYear || '—';
+  renderTable(data);
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('tableBody');
+  if (!tbody) return;
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="tbl-empty">Tidak ada naskah ditemukan.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map((ms, i) => {
+    const ak = Array.isArray(ms.jenis_aksara) ? ms.jenis_aksara.join(', ') : ms.jenis_aksara;
+    return `<tr>
+      <td class="tbl-num">${i + 1}</td>
+      <td>
+        <div class="tbl-title">${ms.judul}</div>
+        <div style="font-size:0.68rem;color:var(--text3);font-family:monospace;margin-top:1px;">${ms.id_naskah}</div>
+      </td>
+      <td><span class="tbl-badge tbl-badge-media">${ms.jenis_media}</span></td>
+      <td style="font-size:0.8rem;color:var(--text3);">${ak}</td>
+      <td style="font-size:0.78rem;color:var(--text3);">${ms.tanggal_tambah}</td>
+      <td>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+          <button class="btn-act btn-lihat" onclick="pg('detail',{id:${ms.id}})">Lihat</button>
+          <button class="btn-act btn-edit" onclick="pg('tambah',{editId:${ms.id}})">Edit</button>
+          <button class="btn-act btn-hapus" onclick="openModal(${ms.id},'${ms.judul}')">Hapus</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterTable() {
+  const q = (document.getElementById('tblSearch')?.value || '').toLowerCase();
+  if (!q) { renderTable(getData()); return; }
+  const res = getData().filter(ms => {
+    const ak = (Array.isArray(ms.jenis_aksara) ? ms.jenis_aksara.join(' ') : ms.jenis_aksara).toLowerCase();
+    return ms.judul.toLowerCase().includes(q) || ms.jenis_media.toLowerCase().includes(q) || ak.includes(q);
+  });
+  renderTable(res);
+}
+
+/* ===========================================================
+   DETAIL VIEW
+=========================================================== */
+function renderDetail(id) {
+  const ms = getData().find(m => m.id === id);
+  const c  = document.getElementById('detailContent');
+  if (!ms || !c) return;
+  const ak = Array.isArray(ms.jenis_aksara) ? ms.jenis_aksara.join(', ') : ms.jenis_aksara;
+  const bh = Array.isArray(ms.jenis_bahasa) ? ms.jenis_bahasa.join(', ') : ms.jenis_bahasa;
+  c.innerHTML = `
+    <button class="back-btn" onclick="pg('dashboard')">← Kembali ke Dashboard</button>
+    <div class="view-hd">
+      <div>
+        <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);letter-spacing:0.06em;">${ms.judul}</h2>
+        <div style="font-size:0.7rem;color:var(--text3);font-family:monospace;margin-top:0.2rem;">ID: ${ms.id_naskah}</div>
+      </div>
+      <div style="display:flex;gap:0.65rem;flex-wrap:wrap;">
+        <button class="btn-act btn-edit" style="padding:0.5rem 1.1rem;" onclick="pg('tambah',{editId:${ms.id}})">✏ Edit</button>
+        <button class="btn-act btn-hapus" style="padding:0.5rem 1.1rem;" onclick="openModal(${ms.id},'${ms.judul}')">✕ Hapus</button>
+      </div>
+    </div>
+    <div class="view-grid">
+      <div>
+        <div class="view-img-box">
+          ${ms.gambar ? `<img src="${ms.gambar}" alt="${ms.judul}" style="width:100%;height:100%;object-fit:cover;">` : `<span class="view-img-ph">📜</span>`}
+        </div>
+        ${ms.full_teks ? `<a href="${ms.full_teks}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;background:var(--blue);color:#fff;border:none;padding:0.65rem;border-radius:7px;font-size:0.83rem;font-weight:700;margin-top:0.85rem;cursor:pointer;">📖 Baca Full Teks</a>` : ''}
+      </div>
+      <div>
+        <table class="meta-tbl">
+          <tr><td>Perkiraan Umur</td><td>${ms.perkiraan_umur}</td></tr>
+          <tr><td>Jenis Aksara</td><td>${ak}</td></tr>
+          <tr><td>Jenis Bahasa</td><td>${bh}</td></tr>
+          <tr><td>Jenis Media</td><td>${ms.jenis_media}</td></tr>
+          <tr><td>Ukuran Fisik</td><td>${ms.ukuran_fisik}</td></tr>
+          <tr><td>Tahun Pendataan</td><td>${ms.tahun_pendataan}</td></tr>
+          <tr><td>No. Sertifikat</td><td>${ms.no_sertifikat}</td></tr>
+          <tr><td>ID Naskah Kuno</td><td style="font-family:monospace;">${ms.id_naskah}</td></tr>
+          <tr><td>Kepemilikan</td><td>${ms.kepemilikan}</td></tr>
+          <tr><td>Lokasi</td><td>${ms.lokasi}</td></tr>
+          <tr><td>Tanggal Tambah</td><td>${ms.tanggal_tambah}</td></tr>
+        </table>
+        <div class="ringkasan-box">
+          <h4>Ringkasan Isi</h4>
+          <p>${ms.ringkasan}</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ===========================================================
+   FORM — TAMBAH / EDIT
+=========================================================== */
+function resetForm() {
+  editTargetId = null;
+  document.getElementById('formTitle').textContent = 'Tambah Naskah Baru';
+  document.getElementById('formSubtitle').textContent = 'Isi semua field yang diperlukan.';
+  ['fJudul','fIdNaskah','fNoSertifikat','fPerkiraanUmur','fMedia','fUkuran',
+   'fTahun','fKepemilikan','fLokasi','fRingkasan','fFullTeks','fTanggal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.querySelectorAll('#aksaraGroup input, #bahasaGroup input').forEach(cb => cb.checked = false);
+  document.getElementById('formErr').classList.remove('on');
+}
+
+function loadEditForm(id) {
+  const ms = getData().find(m => m.id === id);
+  if (!ms) return;
+  editTargetId = id;
+  document.getElementById('formTitle').textContent = 'Edit Naskah';
+  document.getElementById('formSubtitle').textContent = `Mengedit: ${ms.judul} (${ms.id_naskah})`;
+  document.getElementById('fJudul').value        = ms.judul        || '';
+  document.getElementById('fIdNaskah').value     = ms.id_naskah   || '';
+  document.getElementById('fNoSertifikat').value = ms.no_sertifikat|| '';
+  document.getElementById('fPerkiraanUmur').value= ms.perkiraan_umur|| '';
+  document.getElementById('fMedia').value        = ms.jenis_media  || '';
+  document.getElementById('fUkuran').value       = ms.ukuran_fisik || '';
+  document.getElementById('fTahun').value        = ms.tahun_pendataan|| '';
+  document.getElementById('fKepemilikan').value  = ms.kepemilikan  || '';
+  document.getElementById('fLokasi').value       = ms.lokasi       || '';
+  document.getElementById('fRingkasan').value    = ms.ringkasan    || '';
+  document.getElementById('fFullTeks').value     = ms.full_teks    || '';
+  document.getElementById('fTanggal').value      = ms.tanggal_tambah|| '';
+  const ak = Array.isArray(ms.jenis_aksara) ? ms.jenis_aksara : [ms.jenis_aksara];
+  const bh = Array.isArray(ms.jenis_bahasa) ? ms.jenis_bahasa : [ms.jenis_bahasa];
+  document.querySelectorAll('#aksaraGroup input').forEach(cb => { cb.checked = ak.includes(cb.value); });
+  document.querySelectorAll('#bahasaGroup input').forEach(cb => { cb.checked = bh.includes(cb.value); });
+  document.getElementById('formErr').classList.remove('on');
+}
+
+function handleSave() {
+  const judul    = document.getElementById('fJudul').value.trim();
+  const idNaskah = document.getElementById('fIdNaskah').value.trim();
+  const media    = document.getElementById('fMedia').value;
+  const ringkasan= document.getElementById('fRingkasan').value.trim();
+  if (!judul || !idNaskah || !media || !ringkasan) {
+    document.getElementById('formErr').classList.add('on'); return;
+  }
+  document.getElementById('formErr').classList.remove('on');
+
+  const aksara = [...document.querySelectorAll('#aksaraGroup input:checked')].map(c => c.value);
+  const bahasa = [...document.querySelectorAll('#bahasaGroup input:checked')].map(c => c.value);
+
+  const record = {
+    judul,
+    id_naskah:    idNaskah,
+    no_sertifikat:document.getElementById('fNoSertifikat').value.trim(),
+    perkiraan_umur:document.getElementById('fPerkiraanUmur').value.trim(),
+    jenis_media:  media,
+    jenis_aksara: aksara.length ? aksara : ['—'],
+    jenis_bahasa: bahasa.length ? bahasa : ['—'],
+    ukuran_fisik: document.getElementById('fUkuran').value.trim(),
+    tahun_pendataan: parseInt(document.getElementById('fTahun').value) || new Date().getFullYear(),
+    kepemilikan:  document.getElementById('fKepemilikan').value.trim() || 'Dispussipda Kota Malang',
+    lokasi:       document.getElementById('fLokasi').value.trim() || 'Dispussipda Kota Malang',
+    ringkasan,
+    full_teks:    document.getElementById('fFullTeks').value.trim() || null,
+    tanggal_tambah: document.getElementById('fTanggal').value.trim() || new Date().toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'}),
+    gambar: null
+  };
+
+  const data = getData();
+  if (editTargetId != null) {
+    const idx = data.findIndex(m => m.id === editTargetId);
+    if (idx > -1) { record.id = editTargetId; data[idx] = record; }
+    saveData(data);
+    showToast('Naskah berhasil diperbarui!', 'success');
+  } else {
+    record.id = nextId(data);
+    data.push(record);
+    saveData(data);
+    showToast('Naskah berhasil ditambahkan!', 'success');
+  }
+  pg('dashboard');
+}
+
+/* ===========================================================
+   DELETE
+=========================================================== */
+function openModal(id, judul) {
+  deleteTargetId = id;
+  document.getElementById('modalDesc').textContent = `Naskah "${judul}" akan dihapus permanen.`;
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal() { document.getElementById('modal').classList.remove('on'); deleteTargetId = null; }
+function confirmDelete() {
+  if (deleteTargetId == null) return;
+  const data = getData().filter(m => m.id !== deleteTargetId);
+  saveData(data);
+  closeModal();
+  showToast('Naskah berhasil dihapus.', 'info');
+  pg('dashboard');
+}
+
+/* ===========================================================
+   TOAST
+=========================================================== */
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+
+/* ===========================================================
+   THEME
+=========================================================== */
+function toggleTheme() {
+  const cur  = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'parchment' ? 'heritage' : 'parchment';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('jaranan-theme', next);
+  document.getElementById('themeBtn').textContent = next === 'parchment' ? '🌙 Heritage' : '☀ Parchment';
+}
+
+/* ===========================================================
+   INIT
+=========================================================== */
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('jaranan-theme') || 'parchment';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeBtn').textContent = saved === 'parchment' ? '🌙 Heritage' : '☀ Parchment';
+});
+
+/* Close modal on overlay click */
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
