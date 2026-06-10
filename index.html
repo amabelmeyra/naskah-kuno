@@ -192,24 +192,56 @@
     /* ===========================
        HOME — HERO
     =========================== */
+    /* ===========================
+       HERO SLIDER
+    =========================== */
     .hero {
-      min-height: 100vh; padding-top: 64px;
+      position: relative; overflow: hidden; min-height: 100vh;
+    }
+    .hero-slide {
+      position: absolute; inset: 0;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; text-align: center;
-      padding-left: clamp(1rem,5vw,4rem); padding-right: clamp(1rem,5vw,4rem);
-      padding-bottom: 3rem; position: relative; overflow: hidden;
+      padding: calc(64px + 2rem) clamp(1rem,5vw,4rem) 5rem;
+      opacity: 0; transform: translateX(52px);
+      transition: opacity 0.62s ease, transform 0.62s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
     }
-    [data-theme="parchment"] .hero {
+    .hero-slide.active {
+      opacity: 1; transform: translateX(0); pointer-events: auto;
+    }
+    .hero-slide.sl-exit {
+      opacity: 0; transform: translateX(-36px);
+    }
+    [data-theme="parchment"] .hero-slide {
       background:
         linear-gradient(180deg, rgba(245,239,224,0.55) 0%, rgba(237,227,206,0.82) 100%),
         repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(155,115,25,0.04) 28px, rgba(155,115,25,0.04) 29px);
     }
-    [data-theme="heritage"] .hero {
+    [data-theme="heritage"] .hero-slide {
       background:
         radial-gradient(ellipse 80% 55% at 50% 35%, rgba(212,168,64,0.07) 0%, transparent 65%),
         radial-gradient(ellipse 60% 60% at 20% 80%, rgba(80,144,216,0.04) 0%, transparent 60%),
         var(--bg);
     }
+    /* Slider arrows */
+    .slider-arrow {
+      position: absolute; top: 50%; z-index: 20;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--bg-card); border: 1px solid var(--border2);
+      color: var(--text2); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.22s; transform: translateY(-50%);
+      box-shadow: var(--shadow); flex-shrink: 0;
+    }
+    .slider-arrow:hover {
+      background: var(--gold-btn); color: #fff; border-color: var(--gold-btn);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .slider-arrow svg { width: 15px; height: 15px; }
+    .sl-prev { left: clamp(0.65rem,2.5vw,2.5rem); }
+    .sl-next { right: clamp(0.65rem,2.5vw,2.5rem); }
+    @media (max-width: 700px) { .slider-arrow { width: 34px; height: 34px; } }
 
     .hero-watermark {
       position: absolute; top: 50%; left: 50%;
@@ -271,10 +303,14 @@
     .btn-secondary:hover { border-color: var(--gold-btn); color: var(--gold-btn); }
 
     .hero-dots {
-      display: flex; gap: 0.45rem; justify-content: center; margin-top: 3rem;
+      position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%);
+      z-index: 20; display: flex; gap: 0.5rem; align-items: center;
     }
-    .hdot { width: 7px; height: 7px; border-radius: 50%; background: var(--border2); }
-    .hdot.on { background: var(--gold); }
+    .hdot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--border2);
+      cursor: pointer; transition: all 0.3s; flex-shrink: 0;
+    }
+    .hdot.on { background: var(--gold); width: 20px; border-radius: 4px; }
 
     /* ===========================
        STATS BAND
@@ -694,23 +730,85 @@
 ============================================================ -->
 <div id="pg-home" class="pg on">
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-watermark">JARANAN</div>
-    <div class="hero-content">
-      <div class="hero-chip"><span class="hero-dot-sm"></span>Lestarikan Warisan · Kenali Sejarah</div>
-      <h1 class="hero-h1">JARANAN</h1>
-      <p class="hero-inst">Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang</p>
-      <p class="hero-tagline">Jelajahi, pelajari, dan lestarikan naskah kuno sebagai bagian dari kekayaan budaya bangsa</p>
-      <div class="hero-btns">
-        <button class="btn-primary" onclick="pg('katalog')">Jelajahi Koleksi ↓</button>
-        <button class="btn-secondary" onclick="pg('tentang-naskah')">Tentang Naskah Kuno</button>
-      </div>
-      <div class="hero-dots">
-        <div class="hdot on"></div><div class="hdot"></div>
-        <div class="hdot"></div><div class="hdot"></div>
+  <!-- Hero Slider -->
+  <section class="hero" id="heroSection">
+
+    <!-- Slide 1: Intro JARANAN -->
+    <div class="hero-slide active">
+      <div class="hero-watermark">JARANAN</div>
+      <div class="hero-content">
+        <div class="hero-chip"><span class="hero-dot-sm"></span>Lestarikan Warisan · Kenali Sejarah</div>
+        <h1 class="hero-h1">JARANAN</h1>
+        <p class="hero-inst">Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang</p>
+        <p class="hero-tagline">Jelajahi, pelajari, dan lestarikan naskah kuno sebagai bagian dari kekayaan budaya bangsa</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="pg('katalog')">Jelajahi Koleksi ↓</button>
+          <button class="btn-secondary" onclick="pg('tentang-naskah')">Tentang Naskah Kuno</button>
+        </div>
       </div>
     </div>
+
+    <!-- Slide 2: Koleksi -->
+    <div class="hero-slide">
+      <div class="hero-watermark">KOLEKSI</div>
+      <div class="hero-content">
+        <div class="hero-chip"><span class="hero-dot-sm"></span>Daluwang · Lontar · Kertas Eropa</div>
+        <h1 class="hero-h1" style="font-size:clamp(2.4rem,7vw,6.5rem);">8 Naskah<br>Kuno</h1>
+        <p class="hero-inst">Dari berbagai media, aksara, dan bahasa tradisional Nusantara</p>
+        <p class="hero-tagline">Koleksi terus bertambah — setiap naskah tercatat dengan ID resmi dan nomor sertifikat</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="pg('katalog')">Lihat Semua Koleksi →</button>
+          <button class="btn-secondary" onclick="pg('tentang-naskah')">Tentang Naskah Kuno</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Pelestarian -->
+    <div class="hero-slide">
+      <div class="hero-watermark">WARISAN</div>
+      <div class="hero-content">
+        <div class="hero-chip"><span class="hero-dot-sm"></span>Dokumentasi · Digitalisasi · Preservasi</div>
+        <h1 class="hero-h1" style="font-size:clamp(2.2rem,6vw,5.5rem);letter-spacing:0.06em;">Pelestarian<br>Warisan Tulis</h1>
+        <p class="hero-inst">Menyelamatkan naskah kuno sebelum hilang dari peredaran</p>
+        <p class="hero-tagline">Setiap naskah yang terselamatkan adalah cermin peradaban yang kita jaga bersama</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="pg('tentang-jaranan')">Tentang JARANAN →</button>
+          <button class="btn-secondary" onclick="pg('tentang-naskah')">Apa itu Naskah Kuno?</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Akses Publik -->
+    <div class="hero-slide">
+      <div class="hero-watermark">AKSARA</div>
+      <div class="hero-content">
+        <div class="hero-chip"><span class="hero-dot-sm"></span>Jawa · Arab · Pegon · Bali</div>
+        <h1 class="hero-h1" style="font-size:clamp(2.2rem,6.5vw,5.8rem);">Terbuka<br>untuk Semua</h1>
+        <p class="hero-inst">Akses publik gratis — tanpa registrasi</p>
+        <p class="hero-tagline">Peneliti, pelajar, dan masyarakat umum dapat menjelajahi koleksi naskah kuno Kota Malang</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="pg('katalog')">Jelajahi Koleksi</button>
+          <button class="btn-secondary" onclick="pg('kontak')">Hubungi Kami</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrows -->
+    <button class="slider-arrow sl-prev" onclick="sliderPrev()" aria-label="Sebelumnya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="slider-arrow sl-next" onclick="sliderNext()" aria-label="Berikutnya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+    <!-- Dots -->
+    <div class="hero-dots" id="sliderDots">
+      <div class="hdot on" onclick="sliderGo(0)"></div>
+      <div class="hdot" onclick="sliderGo(1)"></div>
+      <div class="hdot" onclick="sliderGo(2)"></div>
+      <div class="hdot" onclick="sliderGo(3)"></div>
+    </div>
+
   </section>
 
   <!-- Stats -->
@@ -832,6 +930,12 @@
           <select class="f-select" id="fBahasa" onchange="doSearch()">
             <option value="">Semua Bahasa</option>
             <option>Jawa</option><option>Jawa Kuno</option><option>Arab</option><option>Pegon</option><option>Bali</option>
+          </select>
+          <select class="f-select" id="fSort" onchange="doSearch()" style="min-width:110px;">
+            <option value="terbaru">↓ Terbaru</option>
+            <option value="terlama">↑ Terlama</option>
+            <option value="az">A – Z</option>
+            <option value="za">Z – A</option>
           </select>
         </div>
       </div>
@@ -1094,11 +1198,12 @@ function _pgShow(el, name, params) {
   el.addEventListener('animationend', () => el.classList.remove('pg-enter'), { once: true });
   window.scrollTo({ top: 0, behavior: 'instant' });
   if (name === 'katalog') {
-    renderKatalog(getManuscripts());
-    document.getElementById('sInput').value = '';
-    document.getElementById('fMedia').value = '';
+    document.getElementById('sInput').value  = '';
+    document.getElementById('fMedia').value  = '';
     document.getElementById('fAksara').value = '';
     document.getElementById('fBahasa').value = '';
+    document.getElementById('fSort').value   = 'terbaru';
+    doSearch();
   }
   if (name === 'detail' && params.id != null) renderDetail(params.id);
   setTimeout(rvInit, 80);
@@ -1148,15 +1253,58 @@ function renderKatalog(data) {
 }
 
 /* ===========================================================
+   HERO SLIDER
+=========================================================== */
+let _sliderIdx = 0;
+let _sliderTmr = null;
+const SLIDER_DELAY = 5000;
+
+function sliderGo(idx) {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('#sliderDots .hdot');
+  if (!slides.length || idx === _sliderIdx) return;
+
+  const cur = slides[_sliderIdx];
+  cur.classList.add('sl-exit');
+  cur.classList.remove('active');
+  setTimeout(() => cur.classList.remove('sl-exit'), 700);
+
+  _sliderIdx = ((idx % slides.length) + slides.length) % slides.length;
+  slides[_sliderIdx].classList.add('active');
+  dots.forEach((d, i) => d.classList.toggle('on', i === _sliderIdx));
+
+  clearInterval(_sliderTmr);
+  _sliderTmr = setInterval(sliderNext, SLIDER_DELAY);
+}
+function sliderNext() {
+  sliderGo((_sliderIdx + 1) % document.querySelectorAll('.hero-slide').length);
+}
+function sliderPrev() {
+  const n = document.querySelectorAll('.hero-slide').length;
+  sliderGo((_sliderIdx - 1 + n) % n);
+}
+function initSlider() {
+  _sliderIdx = 0;
+  clearInterval(_sliderTmr);
+  _sliderTmr = setInterval(sliderNext, SLIDER_DELAY);
+  document.addEventListener('keydown', e => {
+    if (!document.querySelector('#pg-home.on')) return;
+    if (e.key === 'ArrowLeft')  sliderPrev();
+    if (e.key === 'ArrowRight') sliderNext();
+  });
+}
+
+/* ===========================================================
    SEARCH & FILTER
 =========================================================== */
 function doSearch() {
-  const q = (document.getElementById('sInput')?.value || '').toLowerCase().trim();
-  const fMedia  = document.getElementById('fMedia')?.value || '';
-  const fAksara = document.getElementById('fAksara')?.value || '';
-  const fBahasa = document.getElementById('fBahasa')?.value || '';
+  const q       = (document.getElementById('sInput')?.value  || '').toLowerCase().trim();
+  const fMedia  =  document.getElementById('fMedia')?.value  || '';
+  const fAksara =  document.getElementById('fAksara')?.value || '';
+  const fBahasa =  document.getElementById('fBahasa')?.value || '';
+  const fSort   =  document.getElementById('fSort')?.value   || 'terbaru';
 
-  const res = getManuscripts().filter(ms => {
+  let res = getManuscripts().filter(ms => {
     const ak = Array.isArray(ms.jenis_aksara) ? ms.jenis_aksara : [ms.jenis_aksara];
     const bh = Array.isArray(ms.jenis_bahasa) ? ms.jenis_bahasa : [ms.jenis_bahasa];
     const mQ = !q ||
@@ -1170,6 +1318,14 @@ function doSearch() {
     const mBahasa = !fBahasa || bh.includes(fBahasa);
     return mQ && mMedia && mAksara && mBahasa;
   });
+
+  switch (fSort) {
+    case 'terlama': res.sort((a,b) => a.id - b.id);                          break;
+    case 'az':      res.sort((a,b) => a.judul.localeCompare(b.judul, 'id')); break;
+    case 'za':      res.sort((a,b) => b.judul.localeCompare(a.judul, 'id')); break;
+    default:        res.sort((a,b) => b.id - a.id);                          break;
+  }
+
   renderKatalog(res);
 }
 
@@ -1277,6 +1433,7 @@ window.addEventListener('load', () => {
   syncThemeBtn(saved);
   renderHomeCards();
   rvInit();
+  initSlider();
 });
 </script>
 </body>
