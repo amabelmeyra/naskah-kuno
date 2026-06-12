@@ -93,12 +93,9 @@
       display: flex; align-items: center; gap: 0.7rem; text-decoration: none;
       flex-shrink: 0;
     }
-    .brand-badge {
-      width: 36px; height: 36px; border-radius: 7px;
-      background: var(--blue); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; font-weight: 900; letter-spacing: 0.02em;
-      line-height: 1.2; text-align: center; flex-shrink: 0;
+    .brand-logo {
+      height: 34px; width: auto; object-fit: contain;
+      border-radius: 4px; flex-shrink: 0;
     }
     .brand-title {
       font-family: var(--disp-font); font-size: 1.1rem;
@@ -475,18 +472,51 @@
     .site-footer {
       border-top: 1px solid var(--border);
       background: var(--bg-surface);
-      padding: 1.1rem clamp(1rem,5vw,4rem);
+      padding: 2.5rem clamp(1rem,5vw,4rem) 1.5rem;
     }
     .footer-inner {
       max-width: 1200px; margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    .footer-col-brand .footer-brand-logo {
+      height: 28px; width: auto; opacity: 0.75; margin-bottom: 0.75rem; display: block;
+    }
+    .footer-col-brand p {
+      font-size: 0.74rem; color: var(--text3); line-height: 1.65; max-width: 30ch;
+    }
+    .footer-col h4 {
+      font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text2);
+      margin-bottom: 0.75rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .footer-col ul li a {
+      font-size: 0.75rem; color: var(--text3);
+      text-decoration: none; cursor: pointer;
+      transition: color 0.18s;
+    }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-divider {
+      border: none; border-top: 1px solid var(--border); margin: 0;
+    }
+    .footer-bottom {
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 0.5rem;
-      font-size: 0.72rem; color: var(--text3);
+      padding-top: 1.1rem;
+      font-size: 0.7rem; color: var(--text3);
     }
     .footer-ver { font-family: monospace; letter-spacing: 0.04em; }
-    .footer-links { display: flex; gap: 1.2rem; }
-    .footer-links a { color: var(--text3); transition: color 0.2s; cursor: pointer; }
-    .footer-links a:hover { color: var(--gold); }
 
     /* ===========================
        KATALOG PAGE
@@ -631,6 +661,59 @@
     .kontak-ic { flex-shrink: 0; margin-top: 1px; }
 
     /* ===========================
+       MODAL PEDOMAN
+    =========================== */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 400;
+      background: rgba(0,0,0,0.52); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.on { display: flex; }
+    .modal-box {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem; width: 100%; max-width: 540px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.22); max-height: 85vh; overflow-y: auto;
+    }
+    .modal-hd {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;
+      padding-bottom: 0.85rem; border-bottom: 1px solid var(--border);
+    }
+    .modal-hd h3 { font-size: 1.2rem; letter-spacing: 0.04em; }
+    .modal-close {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      color: var(--text2); width: 30px; height: 30px; border-radius: 50%;
+      cursor: pointer; font-size: 1rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--text); color: var(--bg); }
+    .modal-step {
+      display: flex; gap: 1rem; margin-bottom: 1.1rem; align-items: flex-start;
+    }
+    .modal-step-num {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      background: var(--gold-btn); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 900; margin-top: 1px;
+    }
+    .modal-step-body h4 { font-size: 0.86rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .modal-step-body p { font-size: 0.8rem; color: var(--text3); line-height: 1.6; }
+    .modal-tip {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold); border-radius: 7px;
+      padding: 0.85rem 1rem; margin-top: 1.25rem; font-size: 0.8rem; color: var(--text2); line-height: 1.65;
+    }
+    .modal-tip strong { color: var(--gold); }
+    .btn-help {
+      background: var(--bg-surface); color: var(--text3);
+      border: 1px solid var(--border2); border-radius: 999px;
+      padding: 0.42rem 0.9rem; font-size: 0.74rem; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .btn-help:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ===========================
        EMPTY STATE
     =========================== */
     .empty {
@@ -682,7 +765,7 @@
 <!-- ========== NAVBAR ========== -->
 <nav class="topnav" id="topnav">
   <a class="nav-brand" href="#" onclick="pg('home'); return false;">
-    <div class="brand-badge">DSP<br>MLG</div>
+    <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="brand-logo">
     <div>
       <div class="brand-title">JARANAN</div>
       <div class="brand-sub">Dispussipda Kota Malang</div>
@@ -698,18 +781,13 @@
 
   <div class="nav-right">
     <a class="btn-dev btn-changelog" href="changelog.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="12" height="12"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Changelog
-    </a>
-    <a class="btn-dev btn-milestones" href="checklist.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Milestones
     </a>
     <button class="btn-theme" id="themeBtn" onclick="toggleTheme()" aria-label="Ganti tema">
       <svg id="themeBtnIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <span id="themeBtnLabel">Heritage</span>
     </button>
-    <a href="admin.html" class="btn-login-nav">Login →</a>
   </div>
   <button class="hamburger" id="hamBtn" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -720,7 +798,6 @@
   <a onclick="pg('tentang-naskah');closeMenu()">Tentang Naskah Kuno</a>
   <a onclick="pg('tentang-jaranan');closeMenu()">Tentang Jaranan</a>
   <a onclick="pg('kontak');closeMenu()">Kontak</a>
-  <a href="admin.html">Login Admin</a>
 </div>
 
 <main>
@@ -752,12 +829,12 @@
     <div class="hero-slide">
       <div class="hero-watermark">KOLEKSI</div>
       <div class="hero-content">
-        <div class="hero-chip"><span class="hero-dot-sm"></span>Daluwang · Lontar · Kertas Eropa</div>
+        <div class="hero-chip"><span class="hero-dot-sm"></span>Lestarikan Warisan · Kenali Sejarah</div>
         <h1 class="hero-h1" style="font-size:clamp(2.4rem,7vw,6.5rem);">8 Naskah<br>Kuno</h1>
         <p class="hero-inst">Dari berbagai media, aksara, dan bahasa tradisional Nusantara</p>
         <p class="hero-tagline">Koleksi terus bertambah — setiap naskah tercatat dengan ID resmi dan nomor sertifikat</p>
         <div class="hero-btns">
-          <button class="btn-primary" onclick="pg('katalog')">Lihat Semua Koleksi →</button>
+          <button class="btn-primary" onclick="pg('katalog')">Jelajahi Koleksi</button>
           <button class="btn-secondary" onclick="pg('tentang-naskah')">Tentang Naskah Kuno</button>
         </div>
       </div>
@@ -767,13 +844,13 @@
     <div class="hero-slide">
       <div class="hero-watermark">WARISAN</div>
       <div class="hero-content">
-        <div class="hero-chip"><span class="hero-dot-sm"></span>Dokumentasi · Digitalisasi · Preservasi</div>
+        <div class="hero-chip"><span class="hero-dot-sm"></span>Lestarikan Warisan · Kenali Sejarah</div>
         <h1 class="hero-h1" style="font-size:clamp(2.2rem,6vw,5.5rem);letter-spacing:0.06em;">Pelestarian<br>Warisan Tulis</h1>
         <p class="hero-inst">Menyelamatkan naskah kuno sebelum hilang dari peredaran</p>
         <p class="hero-tagline">Setiap naskah yang terselamatkan adalah cermin peradaban yang kita jaga bersama</p>
         <div class="hero-btns">
-          <button class="btn-primary" onclick="pg('tentang-jaranan')">Tentang JARANAN →</button>
-          <button class="btn-secondary" onclick="pg('tentang-naskah')">Apa itu Naskah Kuno?</button>
+          <button class="btn-primary" onclick="pg('katalog')">Jelajahi Koleksi</button>
+          <button class="btn-secondary" onclick="pg('tentang-naskah')">Tentang Naskah Kuno</button>
         </div>
       </div>
     </div>
@@ -782,13 +859,13 @@
     <div class="hero-slide">
       <div class="hero-watermark">AKSARA</div>
       <div class="hero-content">
-        <div class="hero-chip"><span class="hero-dot-sm"></span>Jawa · Arab · Pegon · Bali</div>
+        <div class="hero-chip"><span class="hero-dot-sm"></span>Lestarikan Warisan · Kenali Sejarah</div>
         <h1 class="hero-h1" style="font-size:clamp(2.2rem,6.5vw,5.8rem);">Terbuka<br>untuk Semua</h1>
         <p class="hero-inst">Akses publik gratis — tanpa registrasi</p>
         <p class="hero-tagline">Peneliti, pelajar, dan masyarakat umum dapat menjelajahi koleksi naskah kuno Kota Malang</p>
         <div class="hero-btns">
           <button class="btn-primary" onclick="pg('katalog')">Jelajahi Koleksi</button>
-          <button class="btn-secondary" onclick="pg('kontak')">Hubungi Kami</button>
+          <button class="btn-secondary" onclick="pg('tentang-naskah')">Tentang Naskah Kuno</button>
         </div>
       </div>
     </div>
@@ -843,7 +920,7 @@
           <div class="sec-lbl">Tentang Program</div>
           <h2 class="sec-ttl" style="margin-bottom:1.1rem;">Apa itu JARANAN?</h2>
           <div class="about-body">
-            <p>JARANAN (Jaringan Arsip Naskah Kuno) adalah inovasi Dispussipda Kota Malang untuk mendokumentasikan dan melestarikan naskah kuno secara responsif dan akuntabel.</p>
+            <p>JARANAN (Jaringan Aman dan Humanis untuk Akuisisi Naskah Kuno) adalah inovasi Dispussipda Kota Malang untuk mendokumentasikan dan melestarikan naskah kuno secara responsif dan akuntabel.</p>
             <p>Lahir dari FGD Maret 2023, program ini menjadi terobosan penting dalam penyelamatan warisan intelektual bangsa yang tersebar di kolektor pribadi, lembaga keagamaan, dan warga Kota Malang.</p>
           </div>
           <button class="btn-primary" onclick="pg('tentang-jaranan')" style="margin-top:0.5rem;">Pelajari Selengkapnya</button>
@@ -880,13 +957,55 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-links">
-        <a onclick="pg('katalog')">Koleksi Naskah</a>
-        <a onclick="pg('kontak')">Kontak</a>
-        <a href="admin.html">Admin</a>
+      <div class="footer-grid">
+
+        <!-- Kolom 1: Brand -->
+        <div class="footer-col footer-col-brand">
+          <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="footer-brand-logo">
+          <p>Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang — mendigitalisasi dan melestarikan naskah kuno sebagai warisan budaya bangsa.</p>
+        </div>
+
+        <!-- Kolom 2: Navigasi -->
+        <div class="footer-col">
+          <h4>Navigasi</h4>
+          <ul>
+            <li><a onclick="pg('home')">Beranda</a></li>
+            <li><a onclick="pg('katalog')">Koleksi Naskah</a></li>
+            <li><a onclick="pg('tentang-naskah')">Tentang Naskah Kuno</a></li>
+            <li><a onclick="pg('tentang-jaranan')">Tentang JARANAN</a></li>
+            <li><a onclick="pg('kontak')">Kontak</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Link Terkait -->
+        <div class="footer-col">
+          <h4>Link Terkait</h4>
+          <ul>
+            <li><a href="https://khastara.perpusnas.go.id" target="_blank" rel="noopener">Khastara Perpusnas ↗</a></li>
+            <li><a href="https://opac.perpusnas.go.id" target="_blank" rel="noopener">OPAC Perpusnas ↗</a></li>
+            <li><a href="https://onesearch.id" target="_blank" rel="noopener">ONESearch ↗</a></li>
+            <li><a href="https://www.perpusnas.go.id" target="_blank" rel="noopener">PERPUSNAS ↗</a></li>
+            <li><a href="https://www.anri.go.id" target="_blank" rel="noopener">ANRI ↗</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 4: Instansi -->
+        <div class="footer-col">
+          <h4>Instansi</h4>
+          <ul>
+            <li><a href="https://disperpusip.jatimprov.go.id" target="_blank" rel="noopener">DISPERPUSIP Jatim ↗</a></li>
+            <li><a href="https://www.malangkota.go.id" target="_blank" rel="noopener">Pemkot Malang ↗</a></li>
+            <li><a href="https://disdik.malangkota.go.id" target="_blank" rel="noopener">Dinas Pendidikan ↗</a></li>
+          </ul>
+        </div>
+
       </div>
-      <span>© 2026 Dispussipda Kota Malang</span>
-      <span class="footer-ver">JARANAN v0.1.0</span>
+
+      <hr class="footer-divider">
+      <div class="footer-bottom">
+        <span>© 2026 Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang</span>
+        <span class="footer-ver">JARANAN v0.1.0</span>
+      </div>
     </div>
   </footer>
 </div>
@@ -916,6 +1035,10 @@
               onkeydown="if(event.key==='Enter')doSearch()">
           </div>
           <button class="btn-cari" onclick="doSearch()">CARI</button>
+          <button class="btn-help" onclick="openHelp()" title="Petunjuk Pencarian">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Petunjuk
+          </button>
         </div>
         <div class="filter-row">
           <select class="f-select" id="fMedia" onchange="doSearch()">
@@ -980,7 +1103,7 @@
       <p>Naskah kuno merupakan warisan budaya bangsa yang mempunyai nilai penting bagi kebudayaan nasional, sejarah, dan ilmu pengetahuan. Sebagai salah satu kota bersejarah di Jawa Timur, Kota Malang memiliki potensi besar dalam hal koleksi naskah kuno yang tersebar di masyarakat, kolektor pribadi, dan lembaga keagamaan.</p>
       <p>Namun, selama ini Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang menghadapi tantangan klasik dalam upaya penyelamatan naskah kuno, yaitu belum adanya mekanisme pengadaan yang pasti. Seringkali, ketika ada tawaran naskah kuno dari kolektor, Dinas tidak bisa segera merespons karena tidak ada alokasi anggaran yang tersedia atau belum ada standar harga yang jelas.</p>
       <p>Di sisi lain, jika naskah kuno tidak segera diakuisisi oleh pemerintah, maka kerentanannya terhadap kerusakan, penjualan ke luar daerah, atau bahkan keluar negeri sangatlah tinggi. Melihat urgensi ini, Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang mendorong inovasi <strong>JARANAN</strong> (Jaringan Arsip Naskah Kuno).</p>
-      <p>Inovasi ini lahir dari kebutuhan untuk memiliki perencanaan yang matang sehingga pembelian naskah kuno dapat dilakukan secara responsif dan akuntabel. Berbeda dengan daerah lain yang belum memiliki mekanisme serupa, inovasi ini menjadi terobosan penting dalam penyelamatan naskah kuno di Kota Malang.</p>
+      <p>Inovasi ini lahir dari kebutuhan untuk memiliki perencanaan yang matang sehingga pembelian naskah kuno dapat dilakukan secara responsif dan akuntabel. Berbeda dengan daerah lain yang belum memiliki mekanisme serupa, inovasi <strong>JARANAN</strong> (Jaringan Aman dan Humanis untuk Akuisisi Naskah Kuno) menjadi terobosan penting dalam penyelamatan naskah kuno di Kota Malang.</p>
     </div>
   </div>
 </div>
@@ -1010,6 +1133,52 @@
 </div>
 
 </main><!-- /main -->
+
+<!-- ========== MODAL PEDOMAN PENCARIAN ========== -->
+<div class="modal-overlay" id="modalHelp" onclick="if(event.target===this)closeHelp()">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h3>📖 Petunjuk Cara Pencarian</h3>
+      <button class="modal-close" onclick="closeHelp()">✕</button>
+    </div>
+
+    <div class="modal-step">
+      <div class="modal-step-num">1</div>
+      <div class="modal-step-body">
+        <h4>Cari menggunakan kata kunci</h4>
+        <p>Ketik kata kunci di kotak pencarian — bisa berupa judul naskah, jenis aksara (contoh: <em>Jawa</em>, <em>Arab</em>), jenis bahasa, atau jenis media (contoh: <em>Lontar</em>, <em>Daluwang</em>).</p>
+      </div>
+    </div>
+
+    <div class="modal-step">
+      <div class="modal-step-num">2</div>
+      <div class="modal-step-body">
+        <h4>Gunakan filter untuk mempersempit hasil</h4>
+        <p>Pilih <strong>Jenis Media</strong>, <strong>Jenis Aksara</strong>, atau <strong>Jenis Bahasa</strong> dari dropdown di bawah kotak pencarian. Filter bisa dikombinasikan.</p>
+      </div>
+    </div>
+
+    <div class="modal-step">
+      <div class="modal-step-num">3</div>
+      <div class="modal-step-body">
+        <h4>Urutkan hasil sesuai kebutuhan</h4>
+        <p>Gunakan dropdown <strong>Urutan</strong> untuk menampilkan naskah terbaru, terlama, atau berurutan A–Z.</p>
+      </div>
+    </div>
+
+    <div class="modal-step">
+      <div class="modal-step-num">4</div>
+      <div class="modal-step-body">
+        <h4>Klik naskah untuk melihat detail</h4>
+        <p>Klik kartu naskah mana saja untuk membuka halaman detail lengkap: metadata fisik, ringkasan isi, dan tautan ke full teks (jika tersedia).</p>
+      </div>
+    </div>
+
+    <div class="modal-tip">
+      <strong>💡 Tips:</strong> Untuk mencari naskah Islam Jawa, coba ketik <em>"Pegon"</em> atau <em>"Arab"</em>. Untuk naskah tertua, pilih urutan <em>Terlama</em>.
+    </div>
+  </div>
+</div>
 
 <script>
 /* ===========================================================
@@ -1413,6 +1582,18 @@ function rvInit() {
 }
 
 /* ===========================================================
+   MODAL PEDOMAN PENCARIAN
+=========================================================== */
+function openHelp() {
+  document.getElementById('modalHelp').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeHelp() {
+  document.getElementById('modalHelp').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+/* ===========================================================
    HAMBURGER
 =========================================================== */
 document.getElementById('hamBtn').addEventListener('click', function() {
@@ -1425,6 +1606,43 @@ function closeMenu() {
 }
 
 /* ===========================================================
+   DYNAMIC SLIDER — baca dari localStorage jika admin sudah set
+=========================================================== */
+function applyDynamicSlides() {
+  try {
+    const stored = localStorage.getItem('jaranan_slides');
+    if (!stored) return; // pakai slide HTML default
+    const slides = JSON.parse(stored);
+    if (!slides.length) return;
+
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    heroSlides.forEach((el, i) => {
+      const sl = slides[i];
+      if (!sl) return;
+      // Background gambar
+      if (sl.gambar) {
+        el.style.backgroundImage = `url('${sl.gambar}')`;
+        el.style.backgroundSize = 'cover';
+        el.style.backgroundPosition = 'center';
+      }
+      // Teks dari admin
+      if (sl.judul) {
+        const h = el.querySelector('.hero-h1');
+        if (h) { h.removeAttribute('style'); h.textContent = sl.judul; }
+      }
+      if (sl.subjudul) {
+        const p = el.querySelector('.hero-inst');
+        if (p) p.textContent = sl.subjudul;
+      }
+      if (sl.tagline) {
+        const t = el.querySelector('.hero-tagline');
+        if (t) t.textContent = sl.tagline;
+      }
+    });
+  } catch(e) {}
+}
+
+/* ===========================================================
    INIT
 =========================================================== */
 window.addEventListener('load', () => {
@@ -1434,6 +1652,7 @@ window.addEventListener('load', () => {
   renderHomeCards();
   rvInit();
   initSlider();
+  applyDynamicSlides();
 });
 </script>
 </body>

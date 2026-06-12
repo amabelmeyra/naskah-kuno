@@ -38,10 +38,8 @@
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
     }
     .topbar-brand { display: flex; align-items: center; gap: 0.65rem; }
-    .topbar-badge {
-      width: 30px; height: 30px; border-radius: 6px; background: var(--blue); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.55rem; font-weight: 900; line-height: 1.2; text-align: center;
+    .brand-logo {
+      height: 30px; width: auto; object-fit: contain; border-radius: 4px;
     }
     .topbar-title { font-family: var(--disp-font); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; }
     .topbar-sub { font-size: 0.58rem; color: var(--text3); letter-spacing: 0.04em; }
@@ -184,7 +182,7 @@
 
 <div class="topbar">
   <div class="topbar-brand">
-    <div class="topbar-badge">DSP<br>MLG</div>
+    <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="brand-logo">
     <div>
       <div class="topbar-title">JARANAN</div>
       <div class="topbar-sub">Dispussipda Kota Malang</div>
@@ -192,10 +190,6 @@
   </div>
   <div class="topbar-nav">
     <a class="nav-lnk" href="index.html"><span class="arr">←</span> Beranda</a>
-    <a class="btn-dev btn-milestones" href="checklist.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Milestones
-    </a>
     <button class="btn-theme-sm" id="themeBtn" onclick="toggleTheme()">
       <svg id="themeBtnIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <span id="themeBtnLabel">Heritage</span>
@@ -218,6 +212,96 @@
 
   <div class="timeline">
 
+    <!-- v0.1.2 -->
+    <div class="tl-entry">
+      <div class="tl-date-col">
+        <div class="tl-date">12 Jun<br>2026</div>
+      </div>
+      <div class="tl-dot-col"><div class="tl-dot blue major"></div></div>
+      <div class="tl-card">
+        <div class="tl-card-hd">
+          <span class="tl-version v-minor">v0.1.2</span>
+          <h3 class="tl-title">Keamanan & UI Admin</h3>
+        </div>
+
+        <div class="tl-section">
+          <div class="tl-section-label added">Ditambahkan</div>
+          <ul class="tl-list">
+            <li>Halaman login admin terpisah di URL tidak publik</li>
+            <li>Sesi login dengan masa berlaku 8 jam</li>
+            <li>Proteksi otomatis — panel admin redirect ke login jika sesi habis</li>
+            <li>Login lockout: 5× gagal → kunci 15 menit dengan countdown timer</li>
+            <li>Tab <strong>📊 Statistik</strong> di dashboard admin — grafik digitalisasi naskah &amp; kunjungan harian</li>
+          </ul>
+        </div>
+
+        <div class="tl-section">
+          <div class="tl-section-label changed">Diubah</div>
+          <ul class="tl-list">
+            <li>Tab navigasi admin didesain ulang — underline style, lebih mudah diperluas</li>
+            <li>Tab admin kini 4: Koleksi Naskah, Kelola Slide, Statistik, Pengaturan</li>
+          </ul>
+        </div>
+
+        <div class="tl-footer">
+          <span class="tl-tag">keamanan</span>
+          <span class="tl-tag">sesi login</span>
+          <span class="tl-tag">statistik</span>
+          <span class="tl-tag">admin UI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- v0.1.1 -->
+    <div class="tl-entry">
+      <div class="tl-date-col">
+        <div class="tl-date">12 Jun<br>2026</div>
+      </div>
+      <div class="tl-dot-col"><div class="tl-dot blue"></div></div>
+      <div class="tl-card">
+        <div class="tl-card-hd">
+          <span class="tl-version v-minor">v0.1.1</span>
+          <h3 class="tl-title">Revisi Desain & Fitur Baru</h3>
+        </div>
+
+        <div class="tl-section">
+          <div class="tl-section-label added">Ditambahkan</div>
+          <ul class="tl-list">
+            <li>Logo resmi Dispussipda Kota Malang di navbar dan halaman login</li>
+            <li>Modal <strong>Petunjuk Cara Pencarian</strong> di halaman katalog</li>
+            <li>Fitur edit teks per slide: Judul, Sub-judul, Tagline langsung dari admin</li>
+            <li>Admin dapat menambah jenis aksara &amp; bahasa baru (Tab Pengaturan)</li>
+            <li>Kelola Slide: upload gambar + toggle aktif/nonaktif, sinkron ke halaman depan</li>
+            <li>Footer 4 kolom: Brand, Navigasi, Link Terkait (Perpusnas, ANRI, dll.), Instansi</li>
+          </ul>
+        </div>
+
+        <div class="tl-section">
+          <div class="tl-section-label changed">Diubah</div>
+          <ul class="tl-list">
+            <li>Kepanjangan JARANAN diperbarui — "Jaringan Aman dan Humanis untuk Akuisisi Naskah Kuno"</li>
+            <li>Hero slide: chip kategori dan tombol CTA diseragamkan di semua slide</li>
+            <li>Statistik dashboard dihitung dari data koleksi nyata</li>
+          </ul>
+        </div>
+
+        <div class="tl-section">
+          <div class="tl-section-label removed">Dihapus</div>
+          <ul class="tl-list">
+            <li>Tombol Login dari navbar publik</li>
+          </ul>
+        </div>
+
+        <div class="tl-footer">
+          <span class="tl-tag">revisi-UI</span>
+          <span class="tl-tag">logo</span>
+          <span class="tl-tag">footer</span>
+          <span class="tl-tag">admin</span>
+          <span class="tl-tag">slide</span>
+        </div>
+      </div>
+    </div>
+
     <!-- v0.1.0 -->
     <div class="tl-entry">
       <div class="tl-date-col">
@@ -233,80 +317,22 @@
         <div class="tl-section">
           <div class="tl-section-label added">Ditambahkan</div>
           <ul class="tl-list">
-            <li><code style="font-size:0.78rem;color:var(--blue);">index.html</code> — Public SPA dengan 6 halaman: Beranda, Katalog, Detail, Tentang Naskah Kuno, Tentang Jaranan, Kontak</li>
-            <li><code style="font-size:0.78rem;color:var(--blue);">admin.html</code> — Panel admin dengan login, dashboard tabel, CRUD lengkap (tambah, edit, hapus, lihat detail)</li>
-            <li><code style="font-size:0.78rem;color:var(--blue);">changelog.html</code> — Halaman ini — log perubahan proyek</li>
-            <li><code style="font-size:0.78rem;color:var(--blue);">checklist.html</code> — Milestone tracker perkembangan proyek</li>
-            <li>2 tema visual: <strong>Parchment</strong> (terang, sesuai PDF) + <strong>Heritage</strong> (gelap, Cormorant Garamond)</li>
-            <li>Sistem routing SPA berbasis JavaScript tanpa build tool</li>
-            <li>Pencarian dan filter naskah (media, aksara, bahasa)</li>
-            <li>Hamburger navigation untuk mobile</li>
-            <li>Scroll reveal animation</li>
-            <li>LocalStorage sebagai mock database sementara</li>
-            <li>8 data naskah sample dari PDF sumber</li>
-            <li>Mock auth (email + password, hardcoded sementara)</li>
-            <li>Toast notification untuk feedback aksi admin</li>
-            <li>Confirm modal untuk penghapusan data</li>
+            <li>Halaman publik — Beranda, Katalog, Detail Naskah, Tentang, Kontak</li>
+            <li>Panel admin dengan dashboard, tabel koleksi, tambah/edit/hapus naskah</li>
+            <li>2 tema visual: <strong>Parchment</strong> (terang) + <strong>Heritage</strong> (gelap)</li>
+            <li>Pencarian dan filter koleksi (media, aksara, bahasa)</li>
+            <li>Navigasi mobile (hamburger menu)</li>
+            <li>8 data naskah sample awal</li>
+            <li>Toast notifikasi dan konfirmasi hapus</li>
           </ul>
         </div>
 
         <div class="tl-footer">
-          <span class="tl-tag">frontend-design</span>
+          <span class="tl-tag">initial-build</span>
           <span class="tl-tag">SPA</span>
-          <span class="tl-tag">CRUD</span>
           <span class="tl-tag">2 tema</span>
           <span class="tl-tag">responsive</span>
         </div>
-      </div>
-    </div>
-
-    <!-- v0.0.1 -->
-    <div class="tl-entry">
-      <div class="tl-date-col">
-        <div class="tl-date">10 Jun<br>2026</div>
-      </div>
-      <div class="tl-dot-col"><div class="tl-dot green"></div></div>
-      <div class="tl-card">
-        <div class="tl-card-hd">
-          <span class="tl-version v-patch">v0.0.1</span>
-          <h3 class="tl-title">Inisialisasi Proyek</h3>
-        </div>
-
-        <div class="tl-section">
-          <div class="tl-section-label added">Ditambahkan</div>
-          <ul class="tl-list">
-            <li>Setup folder project</li>
-            <li>Analisis PDF sumber: desain UI dan metadata naskah</li>
-            <li>Dokumentasi kebutuhan dan arsitektur proyek</li>
-          </ul>
-        </div>
-
-        <div class="tl-footer">
-          <span class="tl-tag">setup</span>
-          <span class="tl-tag">dokumentasi</span>
-          <span class="tl-tag">PDF analysis</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Upcoming placeholder -->
-    <div class="tl-entry" style="opacity:0.45;">
-      <div class="tl-date-col">
-        <div class="tl-date" style="font-style:italic;">Soon</div>
-      </div>
-      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--border2);"></div></div>
-      <div class="tl-card" style="border-style:dashed;">
-        <div class="tl-card-hd">
-          <span class="tl-version v-minor">v0.2.0</span>
-          <h3 class="tl-title">Backend & Database</h3>
-        </div>
-        <ul class="tl-list">
-          <li>Auth: login dengan database pengguna (ganti mock auth)</li>
-          <li>Database: tabel <code style="font-size:0.78rem;">manuscripts</code>, <code style="font-size:0.78rem;">users</code></li>
-          <li>Hak akses: admin vs guest</li>
-          <li>Storage untuk gambar dan file naskah</li>
-          <li>Upload gambar langsung dari form admin</li>
-        </ul>
       </div>
     </div>
 

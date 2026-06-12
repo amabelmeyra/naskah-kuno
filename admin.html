@@ -51,11 +51,8 @@
       border-bottom: 1px solid var(--border);
     }
     .nav-brand { display: flex; align-items: center; gap: 0.65rem; }
-    .brand-badge {
-      width: 34px; height: 34px; border-radius: 6px;
-      background: var(--blue); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.58rem; font-weight: 900; line-height: 1.2; text-align: center;
+    .brand-logo {
+      height: 32px; width: auto; object-fit: contain; border-radius: 4px;
     }
     .brand-title { font-family: var(--disp-font); font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; }
     .brand-sub { font-size: 0.55rem; color: var(--text3); letter-spacing: 0.04em; line-height: 1; margin-top: 1px; }
@@ -115,10 +112,9 @@
       box-shadow: var(--shadow2);
     }
     .login-logo { text-align: center; margin-bottom: 1.75rem; }
-    .login-logo-badge {
-      width: 52px; height: 52px; border-radius: 10px; background: var(--blue);
-      color: #fff; display: inline-flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; font-weight: 900; line-height: 1.2; text-align: center; margin-bottom: 0.75rem;
+    .login-logo-img {
+      height: 52px; width: auto; object-fit: contain;
+      display: block; margin: 0 auto 0.75rem; border-radius: 6px;
     }
     .login-logo h2 { font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
     .login-logo p { font-size: 0.78rem; color: var(--text3); }
@@ -156,6 +152,33 @@
       font-size: 0.72rem; color: var(--text3);
     }
 
+    /* --- Lockout UI --- */
+    .login-lockout {
+      display: none;
+      background: rgba(192,57,43,0.07);
+      border: 1px solid rgba(192,57,43,0.25);
+      border-radius: 10px; padding: 1.25rem 1rem;
+      text-align: center; margin-bottom: 1rem;
+    }
+    .login-lockout.on { display: block; }
+    .lockout-icon { font-size: 2rem; line-height: 1; margin-bottom: 0.5rem; }
+    .lockout-msg {
+      font-size: 0.82rem; font-weight: 700; color: var(--red);
+      letter-spacing: 0.02em; margin-bottom: 0.4rem;
+    }
+    .lockout-timer {
+      font-size: 1.8rem; font-weight: 900; color: var(--red);
+      font-family: 'Courier New', monospace; letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .lockout-sub { font-size: 0.7rem; color: var(--text3); line-height: 1.5; }
+    .attempt-counter {
+      font-size: 0.69rem; color: var(--text3);
+      text-align: right; margin-top: 0.3rem; min-height: 1em;
+    }
+    .attempt-counter.warn  { color: #E67E22; font-weight: 700; }
+    .attempt-counter.danger { color: var(--red); font-weight: 700; }
+
     /* =======================
        DASHBOARD
     ======================= */
@@ -171,6 +194,118 @@
     }
     .dash-hd h1 { font-size: clamp(1.3rem,3vw,1.9rem); margin-bottom: 0.15rem; }
     .dash-hd p { font-size: 0.82rem; color: var(--text3); }
+    /* ---- TAB NAVIGATION ---- */
+    .dash-tabs {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      border-bottom: 2px solid var(--border);
+      margin-top: 1.5rem; gap: 0;
+    }
+    .dash-tab {
+      position: relative;
+      font-size: 0.8rem; font-weight: 700; padding: 0.65rem 1.35rem;
+      border: none; background: none; color: var(--text3);
+      cursor: pointer; transition: color 0.18s; letter-spacing: 0.04em;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .dash-tab::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+      height: 2px; background: var(--blue); border-radius: 2px 2px 0 0;
+      transform: scaleX(0); transition: transform 0.18s;
+    }
+    .dash-tab.on { color: var(--blue); }
+    .dash-tab.on::after { transform: scaleX(1); }
+    .dash-tab:hover:not(.on) { color: var(--text); }
+
+    /* ---- SLIDE MANAGER ---- */
+    .slide-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 1.25rem;
+    }
+    .slide-card {
+      background: var(--bg-card); border: 1.5px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .slide-card.active { border-color: var(--green2); box-shadow: 0 0 0 2px rgba(39,174,96,0.15); }
+    .slide-card.inactive { opacity: 0.55; }
+    .slide-img-box {
+      aspect-ratio: 16/9; background: var(--bg-surface);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .slide-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .slide-img-ph { font-size: 2rem; color: var(--border2); }
+    .slide-body { padding: 0.85rem; }
+    .slide-title {
+      font-family: var(--disp-font); font-size: 0.9rem; font-weight: 600;
+      margin-bottom: 0.5rem; line-height: 1.3; word-break: break-word;
+    }
+    .slide-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+    .toggle-lbl { font-size: 0.72rem; font-weight: 700; }
+    .toggle-lbl.on { color: var(--green); }
+    .toggle-lbl.off { color: var(--text3); }
+    .toggle-btn {
+      width: 36px; height: 20px; border-radius: 999px; border: none; cursor: pointer;
+      position: relative; transition: background 0.3s; flex-shrink: 0;
+    }
+    .toggle-btn.on { background: var(--green2); }
+    .toggle-btn.off { background: var(--border2); }
+    .toggle-btn::after {
+      content: ''; position: absolute; top: 2px;
+      width: 16px; height: 16px; border-radius: 50%; background: #fff;
+      transition: left 0.3s;
+    }
+    .toggle-btn.on::after { left: 18px; }
+    .toggle-btn.off::after { left: 2px; }
+    .slide-btns { display: flex; gap: 0.4rem; }
+    .btn-edit-teks {
+      flex: 1; background: none; border: 1px solid var(--border2);
+      color: var(--text3); border-radius: 5px; padding: 0.32rem;
+      font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.18s;
+    }
+    .btn-edit-teks:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-hapus-slide {
+      flex: 1; background: none; border: 1px solid var(--red);
+      color: var(--red); border-radius: 5px; padding: 0.32rem;
+      font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.18s;
+    }
+    .btn-hapus-slide:hover { background: var(--red); color: #fff; }
+
+    /* Slide text editor */
+    .slide-text-edit {
+      border-top: 1px solid var(--border);
+      padding: 0.75rem 0.85rem;
+      background: var(--bg-surface);
+      display: flex; flex-direction: column; gap: 0.45rem;
+    }
+    .slt-field label {
+      display: block; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.05em; color: var(--text3);
+      text-transform: uppercase; margin-bottom: 0.18rem;
+    }
+    .slt-field input, .slt-field textarea {
+      width: 100%; background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); padding: 0.3rem 0.5rem; border-radius: 5px;
+      font-size: 0.75rem; font-family: var(--body-font); outline: none;
+      transition: border-color 0.2s; resize: vertical;
+    }
+    .slt-field textarea { min-height: 52px; }
+    .slt-field input:focus, .slt-field textarea:focus { border-color: var(--blue); }
+    .slt-field input::placeholder, .slt-field textarea::placeholder { color: var(--text3); }
+
+    .add-slide-card {
+      background: var(--bg-card); border: 1.5px dashed var(--border2);
+      border-radius: 10px; aspect-ratio: 4/3; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.6rem; transition: border-color 0.2s;
+      color: var(--text3); font-size: 0.78rem; font-weight: 600; text-align: center;
+      padding: 1rem;
+    }
+    .add-slide-card:hover { border-color: var(--gold-btn); color: var(--gold-btn); }
+    .add-slide-card svg { width: 28px; height: 28px; }
+
     .btn-tambah {
       background: var(--gold-btn); color: #fff; border: none;
       padding: 0.65rem 1.35rem; border-radius: 7px;
@@ -179,6 +314,70 @@
       transition: background 0.2s; white-space: nowrap;
     }
     .btn-tambah:hover { background: var(--text); }
+
+    /* ---- SETTINGS TAB ---- */
+    .setting-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+      padding: 1.5rem clamp(0.75rem,3vw,1.5rem);
+    }
+    @media (max-width: 640px) { .setting-grid { grid-template-columns: 1fr; } }
+    .setting-panel {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+    }
+    .setting-panel-hd {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.85rem 1rem; border-bottom: 1px solid var(--border);
+      background: var(--bg-surface);
+    }
+    .setting-panel-hd h3 { font-family: var(--disp-font); font-size: 0.95rem; font-weight: 700; }
+    .setting-count {
+      font-size: 0.68rem; color: var(--text3);
+      padding: 0.12rem 0.5rem; border-radius: 999px;
+      border: 1px solid var(--border2); background: var(--bg-card);
+    }
+    .setting-list {
+      padding: 0.5rem; display: flex; flex-direction: column; gap: 0.3rem;
+      max-height: 320px; overflow-y: auto;
+    }
+    .setting-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.42rem 0.65rem; border-radius: 6px;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      transition: border-color 0.18s;
+    }
+    .setting-item:hover { border-color: var(--border2); }
+    .setting-opt-name { flex: 1; font-size: 0.83rem; }
+    .badge-default {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text3);
+      border: 1px solid var(--border2); padding: 0.08rem 0.4rem; border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .setting-opt-actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+    .btn-opt-edit {
+      background: none; border: 1px solid var(--border2);
+      color: var(--text3); border-radius: 4px; padding: 0.18rem 0.42rem;
+      font-size: 0.7rem; cursor: pointer; transition: all 0.18s; line-height: 1;
+    }
+    .btn-opt-edit:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-opt-del {
+      background: none; border: 1px solid transparent;
+      color: var(--text3); border-radius: 4px; padding: 0.18rem 0.42rem;
+      font-size: 0.7rem; cursor: pointer; transition: all 0.18s; line-height: 1;
+    }
+    .btn-opt-del:hover { border-color: var(--red); color: var(--red); background: rgba(192,57,43,0.06); }
+    .sopt-input {
+      flex: 1; background: var(--bg-card); border: 1px solid var(--blue);
+      color: var(--text); padding: 0.22rem 0.5rem; border-radius: 5px;
+      font-size: 0.82rem; font-family: var(--body-font); outline: none;
+    }
+    .setting-add {
+      padding: 0.75rem; display: flex; gap: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .setting-add .form-input { font-size: 0.82rem; padding: 0.42rem 0.7rem; }
+    .setting-add .btn-save { padding: 0.42rem 0.85rem; font-size: 0.78rem; white-space: nowrap; }
 
     .stats-row-admin {
       max-width: 1200px; margin: 1.5rem auto 0;
@@ -435,6 +634,50 @@
       .stat-card { min-width: 100px; }
     }
 
+    /* =======================
+       STATISTIK TAB
+    ======================= */
+    .stat-kunjungan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 0.9rem; margin-bottom: 1.5rem;
+    }
+    .stat-kunjungan-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.1rem 1rem; transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .stat-kunjungan-card:hover { box-shadow: var(--shadow); border-color: var(--border2); }
+    .skc-icon { font-size: 1.35rem; line-height: 1; margin-bottom: 0.45rem; }
+    .skc-num {
+      font-family: var(--disp-font); font-size: 1.65rem; font-weight: 700;
+      color: var(--blue); line-height: 1.1;
+    }
+    .skc-lbl {
+      font-size: 0.66rem; color: var(--text3); margin-top: 0.3rem;
+      letter-spacing: 0.07em; text-transform: uppercase; line-height: 1.3;
+    }
+    .chart-panel {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.1rem 1.1rem 0.75rem;
+    }
+    .chart-panel-hd {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .chart-panel-hd h3 {
+      font-family: var(--disp-font); font-size: 0.88rem; font-weight: 700; line-height: 1.3;
+    }
+    .chart-panel-hd span { font-size: 0.68rem; color: var(--text3); white-space: nowrap; }
+    .stat-grid-2 {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.75rem;
+    }
+    @media (max-width: 720px) { .stat-grid-2 { grid-template-columns: 1fr; } }
+    .stat-note {
+      font-size: 0.68rem; color: var(--text3); text-align: center;
+      padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;
+      border: 1px dashed var(--border2);
+    }
+
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
@@ -445,7 +688,7 @@
 <!-- ========== NAVBAR ========== -->
 <nav class="topnav">
   <div class="nav-brand">
-    <div class="brand-badge">DSP<br>MLG</div>
+    <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="brand-logo">
     <div>
       <div class="brand-title">JARANAN</div>
       <div class="brand-sub">Dispussipda Kota Malang</div>
@@ -455,6 +698,7 @@
   <div class="nav-right">
     <button class="btn-theme" id="themeBtn" onclick="toggleTheme()">🌙 Heritage</button>
     <span id="userLabel"></span>
+    <a href="changelog.html" class="btn-publik" style="font-size:0.72rem;">📋 Changelog</a>
     <a href="index.html" class="btn-publik">← Publik</a>
     <button class="btn-logout" id="logoutBtn" onclick="logout()">Keluar ↗</button>
   </div>
@@ -463,39 +707,9 @@
 <main>
 
 <!-- ============================================================
-     LOGIN
-============================================================ -->
-<div id="pg-login" class="pg on">
-  <div class="login-page">
-    <div class="login-card">
-      <div class="login-logo">
-        <div class="login-logo-badge">DSP<br>MLG</div>
-        <h2>JARANAN</h2>
-        <p>Masuk sebagai Admin / Pustakawan</p>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="loginEmail">Email</label>
-        <input class="form-input" id="loginEmail" type="email"
-          placeholder="admin"
-          onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="loginPass">Password</label>
-        <input class="form-input" id="loginPass" type="password"
-          placeholder="••••••••"
-          onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
-      <div class="error-msg" id="loginErr">Email atau password salah. Coba lagi.</div>
-      <button class="btn-block" onclick="doLogin()">MASUK</button>
-      <p class="login-hint">Demo: admin / admin &nbsp;·&nbsp; atau admin@jaranan.dev / admin123</p>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
      DASHBOARD
 ============================================================ -->
-<div id="pg-dashboard" class="pg">
+<div id="pg-dashboard" class="pg on">
   <div class="dashboard-page">
     <div class="dash-hd">
       <div class="dash-hd-row">
@@ -503,7 +717,7 @@
           <h1>Dashboard</h1>
           <p>Kelola koleksi naskah kuno Dispussipda Kota Malang</p>
         </div>
-        <button class="btn-tambah" onclick="pg('tambah')">＋ Tambah Naskah</button>
+        <button class="btn-tambah" id="btnTambahNaskah" onclick="pg('tambah')">＋ Tambah Naskah</button>
       </div>
       <div class="stats-row-admin">
         <div class="stat-card">
@@ -511,11 +725,11 @@
           <div class="stat-card-lbl">Total Naskah</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-num">6</div>
+          <div class="stat-card-num" id="dashMedia">—</div>
           <div class="stat-card-lbl">Jenis Media</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-num">4</div>
+          <div class="stat-card-num" id="dashAksara">—</div>
           <div class="stat-card-lbl">Jenis Aksara</div>
         </div>
         <div class="stat-card">
@@ -523,9 +737,17 @@
           <div class="stat-card-lbl">Tahun Terbaru</div>
         </div>
       </div>
+      <!-- Tab navigation -->
+      <div class="dash-tabs">
+        <button class="dash-tab on" id="tabNaskah" onclick="switchTab('naskah')">📜 Koleksi Naskah</button>
+        <button class="dash-tab" id="tabSlide" onclick="switchTab('slide')">🖼 Kelola Slide</button>
+        <button class="dash-tab" id="tabPengaturan" onclick="switchTab('pengaturan')">⚙ Pengaturan</button>
+        <button class="dash-tab" id="tabStatistik" onclick="switchTab('statistik')">📊 Statistik</button>
+      </div>
     </div>
 
-    <div class="dash-body">
+    <!-- Tab: Koleksi Naskah -->
+    <div class="dash-body" id="tabBodyNaskah">
       <div class="table-bar">
         <div class="tbl-input-wrap">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -552,6 +774,57 @@
         </table>
       </div>
     </div>
+
+    <!-- Tab: Kelola Slide -->
+    <div class="dash-body" id="tabBodySlide" style="display:none;">
+      <p style="font-size:0.83rem;color:var(--text3);margin-bottom:0.5rem;">
+        Centang slide untuk mengaktifkannya di halaman depan. Nonaktifkan slide yang tidak ingin ditampilkan.
+      </p>
+      <div class="slide-grid" id="slideGrid"></div>
+      <!-- Input hidden file untuk upload slide baru -->
+      <input type="file" id="slideFileInput" accept="image/*" style="display:none" onchange="handleSlideUpload(this)">
+    </div>
+
+    <!-- Tab: Statistik -->
+    <div class="dash-body" id="tabBodyStatistik" style="display:none;"></div>
+
+    <!-- Tab: Pengaturan -->
+    <div class="dash-body" id="tabBodyPengaturan" style="display:none;">
+      <div class="setting-grid">
+
+        <!-- Jenis Aksara -->
+        <div class="setting-panel">
+          <div class="setting-panel-hd">
+            <h3>Jenis Aksara</h3>
+            <span class="setting-count" id="aksaraCount">—</span>
+          </div>
+          <div class="setting-list" id="aksaraList"></div>
+          <div class="setting-add">
+            <input class="form-input" id="newAksaraInputPengaturan"
+              placeholder="Nama aksara baru..."
+              onkeydown="if(event.key==='Enter')addOptionFromSettings('aksara')">
+            <button class="btn-save" onclick="addOptionFromSettings('aksara')">＋ Tambah</button>
+          </div>
+        </div>
+
+        <!-- Jenis Bahasa -->
+        <div class="setting-panel">
+          <div class="setting-panel-hd">
+            <h3>Jenis Bahasa</h3>
+            <span class="setting-count" id="bahasaCount">—</span>
+          </div>
+          <div class="setting-list" id="bahasaList"></div>
+          <div class="setting-add">
+            <input class="form-input" id="newBahasaInputPengaturan"
+              placeholder="Nama bahasa baru..."
+              onkeydown="if(event.key==='Enter')addOptionFromSettings('bahasa')">
+            <button class="btn-save" onclick="addOptionFromSettings('bahasa')">＋ Tambah</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -623,20 +896,17 @@
       </div>
 
       <div class="form-section-title" style="margin-top:1.5rem;">Jenis Aksara</div>
-      <div class="checkbox-group" id="aksaraGroup">
-        <label class="check-item"><input type="checkbox" value="Jawa"> <label>Jawa</label></label>
-        <label class="check-item"><input type="checkbox" value="Arab"> <label>Arab</label></label>
-        <label class="check-item"><input type="checkbox" value="Pegon"> <label>Pegon</label></label>
-        <label class="check-item"><input type="checkbox" value="Bali"> <label>Bali</label></label>
+      <div class="checkbox-group" id="aksaraGroup"></div>
+      <div style="display:flex;align-items:center;gap:0.55rem;margin-top:0.65rem;">
+        <input class="form-input" id="newAksaraInput" type="text" placeholder="Tambah aksara baru..." style="max-width:200px;padding:0.42rem 0.75rem;font-size:0.82rem;">
+        <button type="button" class="btn-save" style="padding:0.42rem 0.9rem;font-size:0.78rem;" onclick="addOption('aksara')">＋ Tambah</button>
       </div>
 
       <div class="form-section-title" style="margin-top:1.5rem;">Jenis Bahasa</div>
-      <div class="checkbox-group" id="bahasaGroup">
-        <label class="check-item"><input type="checkbox" value="Jawa"> <label>Jawa</label></label>
-        <label class="check-item"><input type="checkbox" value="Jawa Kuno"> <label>Jawa Kuno</label></label>
-        <label class="check-item"><input type="checkbox" value="Arab"> <label>Arab</label></label>
-        <label class="check-item"><input type="checkbox" value="Pegon"> <label>Pegon</label></label>
-        <label class="check-item"><input type="checkbox" value="Bali"> <label>Bali</label></label>
+      <div class="checkbox-group" id="bahasaGroup"></div>
+      <div style="display:flex;align-items:center;gap:0.55rem;margin-top:0.65rem;">
+        <input class="form-input" id="newBahasaInput" type="text" placeholder="Tambah bahasa baru..." style="max-width:200px;padding:0.42rem 0.75rem;font-size:0.82rem;">
+        <button type="button" class="btn-save" style="padding:0.42rem 0.9rem;font-size:0.78rem;" onclick="addOption('bahasa')">＋ Tambah</button>
       </div>
 
       <div class="form-section-title" style="margin-top:1.5rem;">Konten</div>
@@ -729,6 +999,144 @@
 
 <script>
 /* ===========================================================
+   DYNAMIC AKSARA & BAHASA
+=========================================================== */
+const DEFAULT_AKSARA = ['Jawa', 'Arab', 'Pegon', 'Bali'];
+const DEFAULT_BAHASA = ['Jawa', 'Jawa Kuno', 'Arab', 'Pegon', 'Bali'];
+
+function getOptions(type) {
+  try {
+    const s = localStorage.getItem('jaranan_' + type);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  return type === 'aksara' ? [...DEFAULT_AKSARA] : [...DEFAULT_BAHASA];
+}
+function saveOptions(type, opts) {
+  localStorage.setItem('jaranan_' + type, JSON.stringify(opts));
+}
+
+function renderCheckboxGroup(type, checked = []) {
+  const groupId = type === 'aksara' ? 'aksaraGroup' : 'bahasaGroup';
+  const group = document.getElementById(groupId);
+  if (!group) return;
+  const opts = getOptions(type);
+  group.innerHTML = opts.map(v => `
+    <label class="check-item">
+      <input type="checkbox" value="${v}" ${checked.includes(v) ? 'checked' : ''}>
+      <label>${v}</label>
+    </label>`).join('');
+}
+
+function addOption(type) {
+  const inputId = type === 'aksara' ? 'newAksaraInput' : 'newBahasaInput';
+  const input = document.getElementById(inputId);
+  const val = input.value.trim();
+  if (!val) return;
+  const opts = getOptions(type);
+  if (opts.map(o => o.toLowerCase()).includes(val.toLowerCase())) {
+    showToast(val + ' sudah ada dalam daftar.', 'error'); return;
+  }
+  opts.push(val);
+  saveOptions(type, opts);
+  renderCheckboxGroup(type);
+  input.value = '';
+  showToast(val + ' berhasil ditambahkan!', 'success');
+}
+
+/* -- Settings: render daftar aksara/bahasa -- */
+function renderPengaturan() {
+  ['aksara', 'bahasa'].forEach(type => {
+    const listEl  = document.getElementById(type + 'List');
+    const countEl = document.getElementById(type + 'Count');
+    if (!listEl) return;
+    const opts     = getOptions(type);
+    const defaults = type === 'aksara' ? DEFAULT_AKSARA : DEFAULT_BAHASA;
+    countEl.textContent = opts.length + ' jenis';
+    if (!opts.length) {
+      listEl.innerHTML = '<p style="font-size:0.78rem;color:var(--text3);padding:0.5rem;">Belum ada opsi.</p>';
+      return;
+    }
+    listEl.innerHTML = opts.map((opt, i) => {
+      const isDef = defaults.includes(opt);
+      return `
+        <div class="setting-item" id="sopt-${type}-${i}">
+          <span class="setting-opt-name" id="sopt-label-${type}-${i}">${escHtml(opt)}</span>
+          ${isDef ? '<span class="badge-default">bawaan</span>' : ''}
+          <div class="setting-opt-actions">
+            <button class="btn-opt-edit" onclick="editOption('${type}',${i})">✏</button>
+            <button class="btn-opt-del"  onclick="deleteOption('${type}',${i})">✕</button>
+          </div>
+        </div>`;
+    }).join('');
+  });
+}
+
+function editOption(type, i) {
+  const labelEl = document.getElementById('sopt-label-' + type + '-' + i);
+  if (!labelEl) return;
+  const cur = labelEl.textContent;
+  labelEl.outerHTML = `<input class="sopt-input" id="sopt-input-${type}-${i}"
+    value="${escHtml(cur)}"
+    onkeydown="if(event.key==='Enter')saveEditOption('${type}',${i});
+               if(event.key==='Escape')renderPengaturan()">`;
+  const editBtn = document.querySelector('#sopt-' + type + '-' + i + ' .btn-opt-edit');
+  if (editBtn) {
+    editBtn.textContent = '✓';
+    editBtn.style.color = 'var(--green)';
+    editBtn.style.borderColor = 'var(--green)';
+    editBtn.onclick = function() { saveEditOption(type, i); };
+  }
+  const inp = document.getElementById('sopt-input-' + type + '-' + i);
+  if (inp) { inp.focus(); inp.select(); }
+}
+
+function saveEditOption(type, i) {
+  const inp = document.getElementById('sopt-input-' + type + '-' + i);
+  if (!inp) return;
+  const newVal = inp.value.trim();
+  if (!newVal) { showToast('Nama tidak boleh kosong.', 'error'); return; }
+  const opts = getOptions(type);
+  const others = opts.filter((_, idx) => idx !== i);
+  if (others.map(o => o.toLowerCase()).includes(newVal.toLowerCase())) {
+    showToast('"' + newVal + '" sudah ada.', 'error'); return;
+  }
+  opts[i] = newVal;
+  saveOptions(type, opts);
+  renderPengaturan();
+  renderCheckboxGroup(type);
+  showToast('"' + newVal + '" berhasil disimpan.', 'success');
+}
+
+function deleteOption(type, i) {
+  const opts = getOptions(type);
+  const val  = opts[i];
+  if (!confirm('Hapus "' + val + '" dari daftar ' + type + '?\n\nCatatan: naskah yang sudah tercatat dengan opsi ini tidak terpengaruh.')) return;
+  opts.splice(i, 1);
+  saveOptions(type, opts);
+  renderPengaturan();
+  renderCheckboxGroup(type);
+  showToast('"' + val + '" dihapus.', 'info');
+}
+
+function addOptionFromSettings(type) {
+  const inputId = type === 'aksara' ? 'newAksaraInputPengaturan' : 'newBahasaInputPengaturan';
+  const input = document.getElementById(inputId);
+  const val = input.value.trim();
+  if (!val) { input.focus(); return; }
+  const opts = getOptions(type);
+  if (opts.map(o => o.toLowerCase()).includes(val.toLowerCase())) {
+    showToast('"' + val + '" sudah ada dalam daftar.', 'error'); return;
+  }
+  opts.push(val);
+  saveOptions(type, opts);
+  renderPengaturan();
+  renderCheckboxGroup(type);
+  input.value = '';
+  input.focus();
+  showToast('"' + val + '" berhasil ditambahkan!', 'success');
+}
+
+/* ===========================================================
    AUTH (Mock — ganti dengan Supabase Auth)
    TODO: const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 =========================================================== */
@@ -739,6 +1147,89 @@ const MOCK_CREDENTIALS = [
 
 let currentUser = null;
 let deleteTargetId = null;
+
+/* --- Login Lockout --- */
+const LOCKOUT_KEY   = 'jaranan_lockout';
+const MAX_ATTEMPTS  = 5;
+const LOCKOUT_MS    = 15 * 60 * 1000; // 15 menit
+let lockoutInterval = null;
+
+function getLockoutData() {
+  try { return JSON.parse(localStorage.getItem(LOCKOUT_KEY) || '{}'); }
+  catch { return {}; }
+}
+function saveLockoutData(d) { localStorage.setItem(LOCKOUT_KEY, JSON.stringify(d)); }
+function clearLockoutData() { localStorage.removeItem(LOCKOUT_KEY); }
+
+function isLocked() {
+  const d = getLockoutData();
+  if (!d.until) return false;
+  if (Date.now() < d.until) return true;
+  clearLockoutData(); // expired — reset otomatis
+  return false;
+}
+
+function recordFailedAttempt() {
+  const d = getLockoutData();
+  if (d.until && Date.now() >= d.until) { clearLockoutData(); }
+  const fresh = getLockoutData();
+  fresh.count = (fresh.count || 0) + 1;
+  if (fresh.count >= MAX_ATTEMPTS) fresh.until = Date.now() + LOCKOUT_MS;
+  saveLockoutData(fresh);
+  return fresh.count;
+}
+
+function updateAttemptCounter() {
+  const el = document.getElementById('attemptCounter');
+  if (!el) return;
+  const d = getLockoutData();
+  const n = d.count || 0;
+  if (!n) { el.textContent = ''; el.className = 'attempt-counter'; return; }
+  el.textContent = `Percobaan gagal: ${n} / ${MAX_ATTEMPTS}`;
+  el.className = 'attempt-counter' + (n >= MAX_ATTEMPTS - 1 ? ' danger' : n >= 3 ? ' warn' : '');
+}
+
+function startLockoutCountdown() {
+  if (lockoutInterval) clearInterval(lockoutInterval);
+
+  const lockoutEl  = document.getElementById('loginLockout');
+  const timerEl    = document.getElementById('lockoutTimer');
+  const emailEl    = document.getElementById('loginEmail');
+  const passEl     = document.getElementById('loginPass');
+  const btnEl      = document.getElementById('loginBtn');
+  const errEl      = document.getElementById('loginErr');
+
+  lockoutEl.classList.add('on');
+  emailEl.disabled = true;
+  passEl.disabled  = true;
+  btnEl.disabled   = true;
+  btnEl.textContent = 'DIKUNCI...';
+  errEl.classList.remove('on');
+  updateAttemptCounter();
+
+  function tick() {
+    const d = getLockoutData();
+    if (!d.until || Date.now() >= d.until) {
+      clearInterval(lockoutInterval);
+      lockoutInterval = null;
+      lockoutEl.classList.remove('on');
+      emailEl.disabled = false;
+      passEl.disabled  = false;
+      btnEl.disabled   = false;
+      btnEl.textContent = 'MASUK';
+      clearLockoutData();
+      updateAttemptCounter();
+      return;
+    }
+    const sisa = Math.ceil((d.until - Date.now()) / 1000);
+    const m = String(Math.floor(sisa / 60)).padStart(2, '0');
+    const s = String(sisa % 60).padStart(2, '0');
+    timerEl.textContent = m + ':' + s;
+  }
+
+  tick();
+  lockoutInterval = setInterval(tick, 1000);
+}
 let editTargetId = null;
 
 /* ===========================================================
@@ -766,7 +1257,7 @@ function nextId(d) { return d.length ? Math.max(...d.map(m => m.id)) + 1 : 1; }
    ROUTING
 =========================================================== */
 function pg(name, params = {}) {
-  if (name !== 'login' && !currentUser) { pg('login'); return; }
+  if (!currentUser) { window.location.href = 'pengelola.html'; return; }
   document.querySelectorAll('.pg').forEach(e => e.classList.remove('on'));
   const el = document.getElementById('pg-' + name);
   if (!el) return;
@@ -784,15 +1275,29 @@ function pg(name, params = {}) {
    AUTH
 =========================================================== */
 function doLogin() {
+  // Cek lockout sebelum proses
+  if (isLocked()) { startLockoutCountdown(); return; }
+
   const email = document.getElementById('loginEmail').value.trim();
   const pass  = document.getElementById('loginPass').value;
   const user  = MOCK_CREDENTIALS.find(c => c.email === email && c.password === pass);
+
   if (!user) {
-    document.getElementById('loginErr').classList.add('on');
-    document.getElementById('loginPass').value = '';
+    const count = recordFailedAttempt();
+    updateAttemptCounter();
+    if (count >= MAX_ATTEMPTS) {
+      startLockoutCountdown();
+    } else {
+      document.getElementById('loginErr').classList.add('on');
+      document.getElementById('loginPass').value = '';
+    }
     return;
   }
+
+  // Login berhasil — reset lockout
+  clearLockoutData();
   document.getElementById('loginErr').classList.remove('on');
+  updateAttemptCounter();
   currentUser = user;
   document.getElementById('userLabel').textContent = user.nama;
   document.getElementById('userLabel').classList.add('on');
@@ -802,13 +1307,9 @@ function doLogin() {
 }
 
 function logout() {
+  localStorage.removeItem('jaranan_session');
   currentUser = null;
-  document.getElementById('userLabel').classList.remove('on');
-  document.getElementById('logoutBtn').classList.remove('on');
-  document.getElementById('loginEmail').value = '';
-  document.getElementById('loginPass').value = '';
-  pg('login');
-  showToast('Berhasil keluar.', 'info');
+  window.location.href = 'pengelola.html';
 }
 
 /* ===========================================================
@@ -817,9 +1318,19 @@ function logout() {
 function renderDashboard() {
   const data = getData();
   document.getElementById('dashTotal').textContent = data.length;
+
+  const mediaUnik = new Set(data.map(d => d.jenis_media).filter(Boolean));
+  document.getElementById('dashMedia').textContent = mediaUnik.size || '—';
+
+  const aksaraUnik = new Set(data.flatMap(d => Array.isArray(d.jenis_aksara) ? d.jenis_aksara : [d.jenis_aksara]).filter(a => a && a !== '—'));
+  document.getElementById('dashAksara').textContent = aksaraUnik.size || '—';
+
   const maxYear = data.length ? Math.max(...data.map(d => d.tahun_pendataan || 0)) : '—';
   document.getElementById('dashYear').textContent = maxYear || '—';
+
   renderTable(data);
+  renderCheckboxGroup('aksara', []);
+  renderCheckboxGroup('bahasa', []);
 }
 
 function renderTable(data) {
@@ -949,7 +1460,8 @@ function resetForm() {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
-  document.querySelectorAll('#aksaraGroup input, #bahasaGroup input').forEach(cb => cb.checked = false);
+  renderCheckboxGroup('aksara', []);
+  renderCheckboxGroup('bahasa', []);
   document.getElementById('formErr').classList.remove('on');
   if (document.getElementById('fGambar')) {
     document.getElementById('fGambar').value = '';
@@ -981,8 +1493,8 @@ function loadEditForm(id) {
   previewCover(ms.gambar || '');
   const ak = Array.isArray(ms.jenis_aksara) ? ms.jenis_aksara : [ms.jenis_aksara];
   const bh = Array.isArray(ms.jenis_bahasa) ? ms.jenis_bahasa : [ms.jenis_bahasa];
-  document.querySelectorAll('#aksaraGroup input').forEach(cb => { cb.checked = ak.includes(cb.value); });
-  document.querySelectorAll('#bahasaGroup input').forEach(cb => { cb.checked = bh.includes(cb.value); });
+  renderCheckboxGroup('aksara', ak);
+  renderCheckboxGroup('bahasa', bh);
   document.getElementById('formErr').classList.remove('on');
 }
 
@@ -1061,6 +1573,315 @@ function showToast(msg, type = 'info') {
 }
 
 /* ===========================================================
+   TAB SWITCHING
+=========================================================== */
+function switchTab(tab) {
+  ['naskah','slide','statistik','pengaturan'].forEach(t => {
+    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1))
+      .classList.toggle('on', t === tab);
+    document.getElementById('tabBody' + t.charAt(0).toUpperCase() + t.slice(1))
+      .style.display = t === tab ? '' : 'none';
+  });
+  document.getElementById('btnTambahNaskah').style.display = tab === 'naskah' ? '' : 'none';
+  if (tab === 'slide') renderSlideGrid();
+  if (tab === 'pengaturan') renderPengaturan();
+  if (tab === 'statistik') renderStatistik();
+}
+
+/* ===========================================================
+   SLIDE MANAGEMENT
+=========================================================== */
+const DEFAULT_SLIDES = [
+  { id: 1, judul: 'JARANAN', subjudul: 'Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang', tagline: 'Jelajahi, pelajari, dan lestarikan naskah kuno sebagai bagian dari kekayaan budaya bangsa', gambar: null, aktif: true },
+  { id: 2, judul: '8 Naskah Kuno', subjudul: 'Dari berbagai media, aksara, dan bahasa tradisional Nusantara', tagline: 'Koleksi terus bertambah — setiap naskah tercatat dengan ID resmi dan nomor sertifikat', gambar: null, aktif: true },
+  { id: 3, judul: 'Pelestarian Warisan Tulis', subjudul: 'Menyelamatkan naskah kuno sebelum hilang dari peredaran', tagline: 'Setiap naskah yang terselamatkan adalah cermin peradaban yang kita jaga bersama', gambar: null, aktif: true },
+  { id: 4, judul: 'Terbuka untuk Semua', subjudul: 'Akses publik gratis — tanpa registrasi', tagline: 'Peneliti, pelajar, dan masyarakat umum dapat menjelajahi koleksi naskah kuno Kota Malang', gambar: null, aktif: true },
+];
+
+function getSlides() {
+  try { const s = localStorage.getItem('jaranan_slides'); if (s) return JSON.parse(s); } catch(e) {}
+  return [...DEFAULT_SLIDES];
+}
+function saveSlides(slides) { localStorage.setItem('jaranan_slides', JSON.stringify(slides)); }
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderSlideGrid() {
+  const grid = document.getElementById('slideGrid');
+  if (!grid) return;
+  const slides = getSlides();
+  const cards = slides.map(sl => `
+    <div class="slide-card ${sl.aktif ? 'active' : 'inactive'}" id="slcard-${sl.id}">
+      <div class="slide-img-box">
+        ${sl.gambar
+          ? `<img src="${sl.gambar}" alt="${escHtml(sl.judul)}" onerror="this.parentElement.innerHTML='<span class=slide-img-ph>🖼</span>'">`
+          : `<span class="slide-img-ph">🖼</span>`}
+      </div>
+      <div class="slide-body">
+        <div class="slide-title">${escHtml(sl.judul) || '(Tanpa judul)'}</div>
+        <div class="slide-toggle">
+          <span class="toggle-lbl ${sl.aktif ? 'on' : 'off'}">${sl.aktif ? '✓ Aktif' : '✗ Nonaktif'}</span>
+          <button class="toggle-btn ${sl.aktif ? 'on' : 'off'}" onclick="toggleSlide(${sl.id})"></button>
+        </div>
+        <div class="slide-btns">
+          <button class="btn-edit-teks" onclick="toggleSlideText(${sl.id})">✏ Teks</button>
+          <button class="btn-hapus-slide" onclick="deleteSlide(${sl.id})">Hapus</button>
+        </div>
+      </div>
+      <div class="slide-text-edit" id="slt-${sl.id}" style="display:none">
+        <div class="slt-field">
+          <label>Judul</label>
+          <input type="text" value="${escHtml(sl.judul)}" oninput="saveSlideField(${sl.id},'judul',this.value)" placeholder="Judul besar di slide...">
+        </div>
+        <div class="slt-field">
+          <label>Sub-judul</label>
+          <input type="text" value="${escHtml(sl.subjudul||'')}" oninput="saveSlideField(${sl.id},'subjudul',this.value)" placeholder="Baris kedua...">
+        </div>
+        <div class="slt-field">
+          <label>Tagline</label>
+          <textarea oninput="saveSlideField(${sl.id},'tagline',this.value)" placeholder="Deskripsi singkat...">${escHtml(sl.tagline||'')}</textarea>
+        </div>
+      </div>
+    </div>`).join('');
+
+  const addCard = `
+    <div class="add-slide-card" onclick="document.getElementById('slideFileInput').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      Upload gambar slide baru
+    </div>`;
+
+  grid.innerHTML = cards + addCard;
+}
+
+function toggleSlideText(id) {
+  const el = document.getElementById('slt-' + id);
+  if (!el) return;
+  el.style.display = el.style.display === 'none' ? '' : 'none';
+}
+
+function saveSlideField(id, field, value) {
+  const slides = getSlides();
+  const sl = slides.find(s => s.id === id);
+  if (!sl) return;
+  sl[field] = value;
+  saveSlides(slides);
+  // Update judul display di card header tanpa re-render penuh
+  if (field === 'judul') {
+    const titleEl = document.querySelector('#slcard-' + id + ' .slide-title');
+    if (titleEl) titleEl.textContent = value || '(Tanpa judul)';
+  }
+}
+
+function toggleSlide(id) {
+  const slides = getSlides();
+  const sl = slides.find(s => s.id === id);
+  if (!sl) return;
+  sl.aktif = !sl.aktif;
+  saveSlides(slides);
+  renderSlideGrid();
+  showToast('Slide "' + sl.judul + '" ' + (sl.aktif ? 'diaktifkan.' : 'dinonaktifkan.'), 'info');
+}
+
+function deleteSlide(id) {
+  const slides = getSlides();
+  const sl = slides.find(s => s.id === id);
+  if (!sl) return;
+  if (!confirm('Hapus slide "' + sl.judul + '"?')) return;
+  const updated = slides.filter(s => s.id !== id);
+  saveSlides(updated);
+  renderSlideGrid();
+  showToast('Slide dihapus.', 'info');
+}
+
+function handleSlideUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const slides = getSlides();
+    const newId = slides.length ? Math.max(...slides.map(s => s.id)) + 1 : 1;
+    const name = file.name.replace(/\.[^.]+$/, '');
+    slides.push({ id: newId, judul: name, subjudul: '', tagline: '', gambar: e.target.result, aktif: true });
+    saveSlides(slides);
+    renderSlideGrid();
+    showToast('Slide "' + name + '" berhasil ditambahkan!', 'success');
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+/* ===========================================================
+   STATISTIK
+=========================================================== */
+const STAT_KEY = 'jaranan_statistik';
+
+function getStatData() {
+  try { const s = localStorage.getItem(STAT_KEY); if (s) return JSON.parse(s); } catch(e) {}
+  return null;
+}
+
+function renderStatistik() {
+  // Seed mock data jika belum ada
+  let stats = getStatData();
+  if (!stats) {
+    const today = new Date();
+    const harian = Array.from({length: 7}, (_, i) => {
+      const d = new Date(today);
+      d.setDate(d.getDate() - 6 + i);
+      return {
+        label: d.toLocaleDateString('id-ID', {day:'numeric', month:'short'}),
+        val: 60 + Math.floor(Math.random() * 220)
+      };
+    });
+    const nTotal = getData().length || 8;
+    stats = {
+      kunjungan_hari:  1265,
+      kunjungan_bulan: 18742,
+      pengguna:        2317,
+      pencarian:       5832,
+      unduhan:         12390,
+      durasi:          '04:32',
+      digitalisasi: [
+        {tahun: 2020, jumlah: 5},
+        {tahun: 2021, jumlah: 12},
+        {tahun: 2022, jumlah: 15},
+        {tahun: 2023, jumlah: 42},
+        {tahun: 2024, jumlah: 76},
+        {tahun: 2025, jumlah: nTotal}
+      ],
+      harian
+    };
+    localStorage.setItem(STAT_KEY, JSON.stringify(stats));
+  }
+
+  const cards = [
+    { icon: '👁', num: stats.kunjungan_hari.toLocaleString('id-ID'),  lbl: 'Kunjungan Hari Ini' },
+    { icon: '📅', num: stats.kunjungan_bulan.toLocaleString('id-ID'), lbl: 'Kunjungan Bulan Ini' },
+    { icon: '👤', num: stats.pengguna.toLocaleString('id-ID'),        lbl: 'Pengguna Terdaftar' },
+    { icon: '🔍', num: stats.pencarian.toLocaleString('id-ID'),       lbl: 'Pencarian Naskah' },
+    { icon: '📥', num: stats.unduhan.toLocaleString('id-ID'),         lbl: 'Unduhan File Digital' },
+    { icon: '⏱', num: stats.durasi,                                   lbl: 'Rata-rata Durasi' },
+  ].map(c => `
+    <div class="stat-kunjungan-card">
+      <div class="skc-icon">${c.icon}</div>
+      <div class="skc-num">${c.num}</div>
+      <div class="skc-lbl">${c.lbl}</div>
+    </div>`).join('');
+
+  document.getElementById('tabBodyStatistik').innerHTML = `
+    <div class="stat-kunjungan-grid">${cards}</div>
+    <div class="stat-grid-2">
+      <div class="chart-panel" id="chartDigit"></div>
+      <div class="chart-panel" id="chartHarian"></div>
+    </div>
+    <p class="stat-note">
+      📌 Data statistik kunjungan bersifat simulasi. Integrasi analitik nyata tersedia setelah deploy ke server.
+    </p>`;
+
+  drawLineChart('chartDigit',
+    'Perkembangan Digitalisasi Naskah per Tahun', '2020 – 2025',
+    stats.digitalisasi.map(d => String(d.tahun)),
+    stats.digitalisasi.map(d => d.jumlah));
+
+  drawBarChart('chartHarian',
+    'Kunjungan Harian (7 Hari Terakhir)',
+    new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}),
+    stats.harian.map(d => d.label),
+    stats.harian.map(d => d.val));
+}
+
+function drawLineChart(cid, title, subtitle, labels, values) {
+  const el = document.getElementById(cid);
+  if (!el) return;
+  const W=500, H=155, ML=38, MR=12, MT=10, MB=24;
+  const cW=W-ML-MR, cH=H-MT-MB;
+  const maxV = Math.max(...values) * 1.12 || 1;
+  const n = values.length;
+  const stepX = cW / (n - 1 || 1);
+
+  const pts = values.map((v, i) => ({
+    x: ML + i * stepX,
+    y: MT + cH - (v / maxV) * cH
+  }));
+
+  const linePath = pts.map((p, i) => (i === 0 ? `M${p.x},${p.y}` : `L${p.x},${p.y}`)).join(' ');
+  const areaPath = `${linePath} L${pts[n-1].x},${MT+cH} L${pts[0].x},${MT+cH} Z`;
+
+  const gridLines = [0.25, 0.5, 0.75, 1].map(f => {
+    const y = MT + cH - f * cH;
+    return `<line x1="${ML}" y1="${y}" x2="${ML+cW}" y2="${y}" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="${ML-5}" y="${y+3.5}" text-anchor="end" font-size="9" fill="var(--text3)">${Math.round(f * maxV)}</text>`;
+  }).join('');
+
+  const xLbls = labels.map((lbl, i) =>
+    `<text x="${ML + i * stepX}" y="${H-3}" text-anchor="middle" font-size="9" fill="var(--text3)">${lbl}</text>`
+  ).join('');
+
+  const dots = pts.map((p, i) => `
+    <circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--blue)" stroke="var(--bg-card)" stroke-width="2"/>
+    <text x="${p.x}" y="${p.y-8}" text-anchor="middle" font-size="9" fill="var(--blue)" font-weight="bold">${values[i]}</text>`
+  ).join('');
+
+  el.innerHTML = `
+    <div class="chart-panel-hd"><h3>${title}</h3><span>${subtitle}</span></div>
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+      <defs>
+        <linearGradient id="lgLine" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--blue)" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="var(--blue)" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <path d="${areaPath}" fill="url(#lgLine)"/>
+      ${gridLines}
+      <line x1="${ML}" y1="${MT+cH}" x2="${ML+cW}" y2="${MT+cH}" stroke="var(--border2)" stroke-width="1.5"/>
+      <path d="${linePath}" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${dots}
+      ${xLbls}
+    </svg>`;
+}
+
+function drawBarChart(cid, title, subtitle, labels, values) {
+  const el = document.getElementById(cid);
+  if (!el) return;
+  const W=500, H=155, ML=38, MR=10, MT=10, MB=24;
+  const cW=W-ML-MR, cH=H-MT-MB;
+  const maxV = Math.max(...values) * 1.15 || 1;
+  const n = values.length;
+  const slotW = cW / n;
+  const barW = slotW * 0.58;
+
+  const gridLines = [0.25, 0.5, 0.75, 1].map(f => {
+    const y = MT + cH - f * cH;
+    return `<line x1="${ML}" y1="${y}" x2="${ML+cW}" y2="${y}" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="${ML-5}" y="${y+3.5}" text-anchor="end" font-size="9" fill="var(--text3)">${Math.round(f * maxV)}</text>`;
+  }).join('');
+
+  const bars = values.map((v, i) => {
+    const bH = (v / maxV) * cH;
+    const x  = ML + i * slotW + (slotW - barW) / 2;
+    const y  = MT + cH - bH;
+    const cx = x + barW / 2;
+    return `
+      <rect x="${x}" y="${y}" width="${barW}" height="${bH}" rx="3" fill="var(--gold-btn)" opacity="0.82"/>
+      <text x="${cx}" y="${y-4}" text-anchor="middle" font-size="8.5" fill="var(--text2)">${v}</text>
+      <text x="${cx}" y="${H-3}" text-anchor="middle" font-size="8.5" fill="var(--text3)">${labels[i]}</text>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="chart-panel-hd"><h3>${title}</h3><span>per ${subtitle}</span></div>
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+      ${gridLines}
+      <line x1="${ML}" y1="${MT+cH}" x2="${ML+cW}" y2="${MT+cH}" stroke="var(--border2)" stroke-width="1.5"/>
+      ${bars}
+    </svg>`;
+}
+
+/* ===========================================================
    THEME
 =========================================================== */
 function toggleTheme() {
@@ -1072,12 +1893,47 @@ function toggleTheme() {
 }
 
 /* ===========================================================
+   SESSION CHECK
+=========================================================== */
+const SESSION_KEY = 'jaranan_session';
+
+function getSession() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function checkSession() {
+  const s = getSession();
+  if (!s.email) return false;
+  // Sesi berlaku 8 jam
+  if (Date.now() - s.ts > 8 * 60 * 60 * 1000) {
+    localStorage.removeItem(SESSION_KEY);
+    return false;
+  }
+  const cred = MOCK_CREDENTIALS.find(c => c.email === s.email);
+  if (!cred) return false;
+  currentUser = cred;
+  document.getElementById('userLabel').textContent = cred.nama;
+  document.getElementById('userLabel').classList.add('on');
+  document.getElementById('logoutBtn').classList.add('on');
+  return true;
+}
+
+/* ===========================================================
    INIT
 =========================================================== */
 window.addEventListener('load', () => {
   const saved = localStorage.getItem('jaranan-theme') || 'parchment';
   document.documentElement.setAttribute('data-theme', saved);
   document.getElementById('themeBtn').textContent = saved === 'parchment' ? '🌙 Heritage' : '☀ Parchment';
+
+  // Cek sesi — jika tidak valid, redirect ke halaman login
+  if (!checkSession()) {
+    window.location.href = 'pengelola.html';
+    return;
+  }
+
+  renderDashboard();
 });
 
 /* Close modal on overlay click */
