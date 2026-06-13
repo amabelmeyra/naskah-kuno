@@ -147,6 +147,16 @@
     }
     .back-link:hover { color: var(--gold); }
 
+
+    /* ---- Info keamanan ---- */
+    .login-info {
+      width: 100%; background: var(--bg-surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.85rem 1.1rem; font-size: 0.73rem; color: var(--text3); line-height: 1.95;
+    }
+    .login-info-title { font-size: 0.75rem; font-weight: 700; color: var(--gold); margin-bottom: 0.25rem; letter-spacing: 0.04em; }
+    .login-info strong { color: var(--text2); }
+
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
   </style>
@@ -158,7 +168,7 @@
   <div class="login-wrap">
   <div class="login-card">
     <div class="login-logo">
-      <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="login-logo-img">
+      <img src="assets/img/logo-dispussipda.png" alt="Logo Dispussipda" class="login-logo-img">
       <h2>JARANAN</h2>
       <p>Akses Panel Pengelola</p>
     </div>
@@ -191,6 +201,15 @@
   </div><!-- /login-card -->
 
   <a href="index.html" class="back-link">← Kembali ke halaman publik</a>
+  <div class="login-info">
+    <div class="login-info-title">🔐 Informasi Keamanan</div>
+    <div>• Maksimal <strong>5×</strong> percobaan login yang diizinkan</div>
+    <div>• Gagal 5× → akun dikunci selama <strong>15 menit</strong></div>
+    <div>• Sesi aktif otomatis berakhir setelah <strong>8 jam</strong></div>
+    <div>• URL halaman ini bersifat <strong>rahasia</strong> — jangan dibagikan</div>
+    <div>• Gunakan jaringan terpercaya saat mengakses panel ini</div>
+  </div>
+
   </div><!-- /login-wrap -->
 
 <script>
@@ -350,6 +369,14 @@ function doLogin() {
   // Berhasil
   clearLockoutData();
   saveSession(user);
+  // Catat login ke audit log
+  try {
+    const log = JSON.parse(localStorage.getItem('jaranan_audit_log') || '[]');
+    log.unshift({ action: 'Login', detail: user.name || user.email, ts: Date.now() });
+    if (log.length > 150) log.length = 150;
+    localStorage.setItem('jaranan_audit_log', JSON.stringify(log));
+  } catch(e) {}
+  sessionStorage.setItem('jaranan_fresh_login', '1');
   window.location.href = 'admin.html';
 }
 
@@ -359,7 +386,8 @@ function doLogin() {
 window.addEventListener('load', () => {
   // Jika sudah login, langsung ke admin
   if (isSessionValid()) {
-    window.location.href = 'admin.html';
+    sessionStorage.setItem('jaranan_fresh_login', '1');
+  window.location.href = 'admin.html';
     return;
   }
 

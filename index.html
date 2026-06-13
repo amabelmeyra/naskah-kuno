@@ -40,9 +40,9 @@
       --bg-card:      #1F2540;
       --bg-surface:   #252D4C;
       --bg-dark:      #2E3860;
-      --text:         #EDF0FA;
-      --text2:        #9BAAC8;
-      --text3:        #5C6A8A;
+      --text:         #F0F3FC;
+      --text2:        #C0CFEA;
+      --text3:        #8899BB;
       --gold:         #E8B84B;
       --gold-btn:     #D4A030;
       --gold-light:   #F5CC60;
@@ -207,6 +207,7 @@
     .hero-slide.active {
       opacity: 1; transform: translateX(0); pointer-events: auto;
     }
+    .hero-slide.sl-disabled { display: none !important; }
     .hero-slide.sl-exit {
       opacity: 0; transform: translateX(-36px);
     }
@@ -309,6 +310,18 @@
     }
     .hdot.on { background: var(--gold); width: 20px; border-radius: 4px; }
 
+
+    /* ---- Admin floating shortcut ---- */
+    .admin-float-btn {
+      display: none; position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500;
+      background: var(--gold-btn); color: #fff;
+      border: none; padding: 0.55rem 1.1rem; border-radius: 999px;
+      font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+      transition: opacity 0.2s, transform 0.2s; text-decoration: none;
+    }
+    .admin-float-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .admin-float-btn.on { display: inline-block; }
     /* ===========================
        STATS BAND
     =========================== */
@@ -330,6 +343,14 @@
       color: rgba(240,232,213,0.45); margin-top: 0.2rem;
     }
 
+
+    [data-theme="heritage"] .stats-band {
+      background: var(--bg-surface);
+      color: var(--text);
+    }
+    [data-theme="heritage"] .stat-lbl {
+      color: var(--text3);
+    }
     /* ===========================
        SECTIONS
     =========================== */
@@ -493,16 +514,16 @@
       height: 28px; width: auto; opacity: 0.75; margin-bottom: 0.75rem; display: block;
     }
     .footer-col-brand p {
-      font-size: 0.74rem; color: var(--text3); line-height: 1.65; max-width: 30ch;
+      font-size: 0.83rem; color: var(--text3); line-height: 1.7; max-width: 30ch;
     }
     .footer-col h4 {
-      font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em;
+      font-size: 0.68rem; font-weight: 900; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--text2);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
     }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
     .footer-col ul li a {
-      font-size: 0.75rem; color: var(--text3);
+      font-size: 0.85rem; color: var(--text3);
       text-decoration: none; cursor: pointer;
       transition: color 0.18s;
     }
@@ -514,7 +535,7 @@
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 0.5rem;
       padding-top: 1.1rem;
-      font-size: 0.7rem; color: var(--text3);
+      font-size: 0.76rem; color: var(--text3);
     }
     .footer-ver { font-family: monospace; letter-spacing: 0.04em; }
 
@@ -765,7 +786,7 @@
 <!-- ========== NAVBAR ========== -->
 <nav class="topnav" id="topnav">
   <a class="nav-brand" href="#" onclick="pg('home'); return false;">
-    <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="brand-logo">
+    <img src="assets/img/logo-dispussipda.png" alt="Logo Dispussipda" class="brand-logo">
     <div>
       <div class="brand-title">JARANAN</div>
       <div class="brand-sub">Dispussipda Kota Malang</div>
@@ -890,7 +911,7 @@
 
   <!-- Stats -->
   <div class="stats-band">
-    <div class="stats-row">
+    <div class="stats-row" id="cms-stats-row">
       <div class="rv d1"><div class="stat-num" id="statTotal">—</div><div class="stat-lbl">Total Naskah</div></div>
       <div class="rv d2"><div class="stat-num">6</div><div class="stat-lbl">Jenis Media</div></div>
       <div class="rv d3"><div class="stat-num">4</div><div class="stat-lbl">Jenis Aksara</div></div>
@@ -916,7 +937,7 @@
   <section class="sec about-strip">
     <div class="sec-inner">
       <div class="about-grid">
-        <div class="rv">
+        <div class="rv" id="cms-about-left">
           <div class="sec-lbl">Tentang Program</div>
           <h2 class="sec-ttl" style="margin-bottom:1.1rem;">Apa itu JARANAN?</h2>
           <div class="about-body">
@@ -926,7 +947,7 @@
           <button class="btn-primary" onclick="pg('tentang-jaranan')" style="margin-top:0.5rem;">Pelajari Selengkapnya</button>
         </div>
         <div class="rv d2">
-          <div class="feat-box">
+          <div class="feat-box" id="cms-feat-box">
             <div class="feat-item">
               <div class="feat-icon" style="background:var(--gold-btn);color:#fff;">📜</div>
               <div>
@@ -961,8 +982,8 @@
 
         <!-- Kolom 1: Brand -->
         <div class="footer-col footer-col-brand">
-          <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="footer-brand-logo">
-          <p>Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang — mendigitalisasi dan melestarikan naskah kuno sebagai warisan budaya bangsa.</p>
+          <img src="assets/img/logo-dispussipda.png" alt="Logo Dispussipda" class="footer-brand-logo">
+          <p id="cms-footer-brand">Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang — mendigitalisasi dan melestarikan naskah kuno sebagai warisan budaya bangsa.</p>
         </div>
 
         <!-- Kolom 2: Navigasi -->
@@ -980,7 +1001,7 @@
         <!-- Kolom 3: Link Terkait -->
         <div class="footer-col">
           <h4>Link Terkait</h4>
-          <ul>
+          <ul id="cms-footer-related">
             <li><a href="https://khastara.perpusnas.go.id" target="_blank" rel="noopener">Khastara Perpusnas ↗</a></li>
             <li><a href="https://opac.perpusnas.go.id" target="_blank" rel="noopener">OPAC Perpusnas ↗</a></li>
             <li><a href="https://onesearch.id" target="_blank" rel="noopener">ONESearch ↗</a></li>
@@ -992,7 +1013,7 @@
         <!-- Kolom 4: Instansi -->
         <div class="footer-col">
           <h4>Instansi</h4>
-          <ul>
+          <ul id="cms-footer-instansi">
             <li><a href="https://disperpusip.jatimprov.go.id" target="_blank" rel="noopener">DISPERPUSIP Jatim ↗</a></li>
             <li><a href="https://www.malangkota.go.id" target="_blank" rel="noopener">Pemkot Malang ↗</a></li>
             <li><a href="https://disdik.malangkota.go.id" target="_blank" rel="noopener">Dinas Pendidikan ↗</a></li>
@@ -1003,7 +1024,7 @@
 
       <hr class="footer-divider">
       <div class="footer-bottom">
-        <span>© 2026 Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang</span>
+        <span id="cms-footer-copyright">© 2026 Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang</span>
         <span class="footer-ver">JARANAN v0.1.0</span>
       </div>
     </div>
@@ -1081,8 +1102,8 @@
 <div id="pg-tentang-naskah" class="pg">
   <div class="content-wrap">
     <button class="back-btn" onclick="pg('home')"><span class="arr">←</span> Beranda</button>
-    <h2 class="content-h2">Tentang Naskah Kuno</h2>
-    <div class="content-body">
+    <h2 class="content-h2" id="cms-tn-heading">Tentang Naskah Kuno</h2>
+    <div class="content-body" id="cms-tn-body">
       <p>Pada bulan Maret 2023 lalu Dinas Perpustakaan Umum dan Arsip Daerah (Dispussipda) Kota Malang menggelar Forum Group Discussion (FGD) dalam rangka penelusuran, pendataan, pelestarian, dan pendaftaran naskah kuno di Kota Malang dengan tema <em>Mamayu Candi Pustaka: Menjunjung Tinggi Nilai-Nilai Kebaikan dan Keindahan dari Kumpulan Manuskrip/Naskah Kuno.</em></p>
       <p>Hasil penelusuran menghasilkan sejumlah naskah kuno yang kemudian dijadikan koleksi pelestarian. Naskah tersebut ditulis pada media lontar, daluang, dan kertas Eropa, dengan usia sebagian besar lebih dari 50 tahun sehingga termasuk kategori naskah kuno.</p>
       <p>Naskah kuno menurut Perpustakaan Nasional 2024 didefinisikan sebagai dokumen tertulis yang tidak dicetak atau tidak diperbanyak dengan cara lain, baik yang berada di dalam maupun di luar negeri, yang berusia paling rendah 50 (lima puluh) tahun serta memiliki nilai penting bagi kebudayaan nasional, sejarah, dan ilmu pengetahuan.</p>
@@ -1098,8 +1119,8 @@
 <div id="pg-tentang-jaranan" class="pg">
   <div class="content-wrap">
     <button class="back-btn" onclick="pg('home')"><span class="arr">←</span> Beranda</button>
-    <h2 class="content-h2">Tentang JARANAN</h2>
-    <div class="content-body">
+    <h2 class="content-h2" id="cms-tj-heading">Tentang JARANAN</h2>
+    <div class="content-body" id="cms-tj-body">
       <p>Naskah kuno merupakan warisan budaya bangsa yang mempunyai nilai penting bagi kebudayaan nasional, sejarah, dan ilmu pengetahuan. Sebagai salah satu kota bersejarah di Jawa Timur, Kota Malang memiliki potensi besar dalam hal koleksi naskah kuno yang tersebar di masyarakat, kolektor pribadi, dan lembaga keagamaan.</p>
       <p>Namun, selama ini Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang menghadapi tantangan klasik dalam upaya penyelamatan naskah kuno, yaitu belum adanya mekanisme pengadaan yang pasti. Seringkali, ketika ada tawaran naskah kuno dari kolektor, Dinas tidak bisa segera merespons karena tidak ada alokasi anggaran yang tersedia atau belum ada standar harga yang jelas.</p>
       <p>Di sisi lain, jika naskah kuno tidak segera diakuisisi oleh pemerintah, maka kerentanannya terhadap kerusakan, penjualan ke luar daerah, atau bahkan keluar negeri sangatlah tinggi. Melihat urgensi ini, Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang mendorong inovasi <strong>JARANAN</strong> (Jaringan Arsip Naskah Kuno).</p>
@@ -1114,8 +1135,8 @@
 <div id="pg-kontak" class="pg">
   <div class="content-wrap">
     <button class="back-btn" onclick="pg('home')"><span class="arr">←</span> Beranda</button>
-    <h2 class="content-h2">Kontak</h2>
-    <div class="kontak-cards">
+    <h2 class="content-h2" id="cms-kontak-heading">Kontak</h2>
+    <div class="kontak-cards" id="cms-kontak-cards">
       <div class="kontak-card">
         <h3>Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang</h3>
         <div class="kontak-row"><span class="kontak-ic">📍</span><span>Jl. Ijen No.30A, Oro-oro Dowo, Kec. Klojen, Kota Malang, Jawa Timur 65112</span></div>
@@ -1180,7 +1201,194 @@
   </div>
 </div>
 
+<a class="admin-float-btn" id="adminFloatBtn" href="admin.html">⚙ Panel Admin</a>
+
 <script>
+
+/* utility */
+function escHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ===========================================================
+   CONTENT MANAGEMENT SYSTEM (CMS)
+   Key: jaranan_content — diedit via admin tab ✏ Konten
+=========================================================== */
+const CONTENT_KEY = 'jaranan_content';
+
+const DEFAULT_CONTENT = {
+  about: {
+    label: 'Tentang Program',
+    heading: 'Apa itu JARANAN?',
+    p1: 'JARANAN (Jaringan Aman dan Humanis untuk Akuisisi Naskah Kuno) adalah inovasi Dispussipda Kota Malang untuk mendokumentasikan dan melestarikan naskah kuno secara responsif dan akuntabel.',
+    p2: 'Lahir dari FGD Maret 2023, program ini menjadi terobosan penting dalam penyelamatan warisan intelektual bangsa yang tersebar di kolektor pribadi, lembaga keagamaan, dan warga Kota Malang.',
+    cta: 'Pelajari Selengkapnya'
+  },
+  features: [
+    { icon: '📜', bg: 'var(--gold-btn)', fg: '#fff', title: 'Pelestarian Digital', desc: 'Naskah kuno didigitalisasi dan disimpan aman untuk generasi mendatang.' },
+    { icon: '🔍', bg: 'var(--blue)',     fg: '#fff', title: 'Akses Publik',        desc: 'Siapa pun dapat mencari, mempelajari, dan mengakses koleksi naskah kuno.' },
+    { icon: '🏛️', bg: 'var(--text)',    fg: 'var(--gold-light)', title: 'Tercatat Resmi', desc: 'Setiap naskah memiliki ID resmi, no. sertifikat, dan metadata lengkap.' }
+  ],
+  stats: [
+    { num: null,   label: 'Total Naskah'   },
+    { num: '6',    label: 'Jenis Media'    },
+    { num: '4',    label: 'Jenis Aksara'   },
+    { num: '2023', label: 'Mulai Pendataan'}
+  ],
+  tentang_naskah: {
+    heading: 'Tentang Naskah Kuno',
+    paragraphs: [
+      'Pada bulan Maret 2023 lalu Dinas Perpustakaan Umum dan Arsip Daerah (Dispussipda) Kota Malang menggelar Forum Group Discussion (FGD) dalam rangka penelusuran, pendataan, pelestarian, dan pendaftaran naskah kuno di Kota Malang dengan tema <em>Mamayu Candi Pustaka: Menjunjung Tinggi Nilai-Nilai Kebaikan dan Keindahan dari Kumpulan Manuskrip/Naskah Kuno.</em>',
+      'Hasil penelusuran menghasilkan sejumlah naskah kuno yang kemudian dijadikan koleksi pelestarian. Naskah tersebut ditulis pada media lontar, daluang, dan kertas Eropa, dengan usia sebagian besar lebih dari 50 tahun sehingga termasuk kategori naskah kuno.',
+      'Naskah kuno menurut Perpustakaan Nasional 2024 didefinisikan sebagai dokumen tertulis yang tidak dicetak atau tidak diperbanyak dengan cara lain, baik yang berada di dalam maupun di luar negeri, yang berusia paling rendah 50 (lima puluh) tahun serta memiliki nilai penting bagi kebudayaan nasional, sejarah, dan ilmu pengetahuan.',
+      'Naskah kuno merupakan hasil pemikiran intelektual pada masa lampau yang diwariskan kepada generasi masa kini. Di dalamnya termuat berbagai gagasan, konsep, serta karya para cendekiawan, penulis, dan pemikir terdahulu yang lahir melalui proses kreatif dan dicatat secara nyata dalam bentuk tulisan.',
+      'Naskah kuno mengandung gambaran mengenai perilaku, kebiasaan, dan praktik kebudayaan masyarakat di suatu daerah, yang dapat membantu memahami kehidupan sosial pada masa lampau. Naskah-naskah kuno mencakup beragam tema, antara lain ajaran ketuhanan, nilai-nilai moral, sejarah cerita rakyat seperti dongeng dan legenda, pengetahuan teknologi tradisional, mantra, silsilah, jimat, syair, persoalan politik dan pemerintahan, ketentuan hukum dan adat, praktik pengobatan tradisional, hikayat, serta berbagai topik lainnya.'
+    ]
+  },
+  tentang_jaranan: {
+    heading: 'Tentang JARANAN',
+    paragraphs: [
+      'Naskah kuno merupakan warisan budaya bangsa yang mempunyai nilai penting bagi kebudayaan nasional, sejarah, dan ilmu pengetahuan. Sebagai salah satu kota bersejarah di Jawa Timur, Kota Malang memiliki potensi besar dalam hal koleksi naskah kuno yang tersebar di masyarakat, kolektor pribadi, dan lembaga keagamaan.',
+      'Namun, selama ini Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang menghadapi tantangan klasik dalam upaya penyelamatan naskah kuno, yaitu belum adanya mekanisme pengadaan yang pasti. Seringkali, ketika ada tawaran naskah kuno dari kolektor, Dinas tidak bisa segera merespons karena tidak ada alokasi anggaran yang tersedia atau belum ada standar harga yang jelas.',
+      'Di sisi lain, jika naskah kuno tidak segera diakuisisi oleh pemerintah, maka kerentanannya terhadap kerusakan, penjualan ke luar daerah, atau bahkan keluar negeri sangatlah tinggi. Melihat urgensi ini, Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang mendorong inovasi <strong>JARANAN</strong> (Jaringan Arsip Naskah Kuno).',
+      'Inovasi ini lahir dari kebutuhan untuk memiliki perencanaan yang matang sehingga pembelian naskah kuno dapat dilakukan secara responsif dan akuntabel. Berbeda dengan daerah lain yang belum memiliki mekanisme serupa, inovasi <strong>JARANAN</strong> (Jaringan Aman dan Humanis untuk Akuisisi Naskah Kuno) menjadi terobosan penting dalam penyelamatan naskah kuno di Kota Malang.'
+    ]
+  },
+  kontak: {
+    heading: 'Kontak',
+    cards: [
+      {
+        title: 'Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang',
+        alamat: 'Jl. Ijen No.30A, Oro-oro Dowo, Kec. Klojen, Kota Malang, Jawa Timur 65112',
+        telepon: '(0341) 362005',
+        email: 'malanglib@gmail.com',
+        jam: ''
+      },
+      {
+        title: 'Ruang Preservasi dan Pengolahan Bahan Perpustakaan',
+        alamat: 'Jl. Ijen No.30A, Lantai 2, Kota Malang 65112',
+        telepon: '',
+        email: 'koleksi.malanglibrary@gmail.com',
+        jam: 'Senin – Jumat, 08.00 – 15.00 WIB'
+      }
+    ]
+  },
+  footer: {
+    brand_desc: 'Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang — mendigitalisasi dan melestarikan naskah kuno sebagai warisan budaya bangsa.',
+    copyright: '© 2026 Dinas Perpustakaan Umum dan Arsip Daerah Kota Malang',
+    related: [
+      { text: 'Khastara Perpusnas', url: 'https://khastara.perpusnas.go.id' },
+      { text: 'OPAC Perpusnas',     url: 'https://opac.perpusnas.go.id'    },
+      { text: 'ONESearch',          url: 'https://onesearch.id'             },
+      { text: 'PERPUSNAS',          url: 'https://www.perpusnas.go.id'      },
+      { text: 'ANRI',               url: 'https://www.anri.go.id'           }
+    ],
+    instansi: [
+      { text: 'DISPERPUSIP Jatim', url: 'https://disperpusip.jatimprov.go.id' },
+      { text: 'Pemkot Malang',     url: 'https://www.malangkota.go.id'         },
+      { text: 'Dinas Pendidikan',  url: 'https://disdik.malangkota.go.id'      }
+    ]
+  }
+};
+
+function getContent() {
+  try {
+    const raw = localStorage.getItem(CONTENT_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+    // Deep merge: stored overrides default
+    const stored = JSON.parse(raw);
+    return Object.assign({}, DEFAULT_CONTENT, stored);
+  } catch(e) { return JSON.parse(JSON.stringify(DEFAULT_CONTENT)); }
+}
+
+function applyContent() {
+  const cnt = getContent();
+
+  // ── About JARANAN section ──
+  const aboutLeft = document.getElementById('cms-about-left');
+  if (aboutLeft) {
+    aboutLeft.innerHTML =
+      `<div class="sec-lbl">${escHtml(cnt.about.label)}</div>
+      <h2 class="sec-ttl" style="margin-bottom:1.1rem;">${escHtml(cnt.about.heading)}</h2>
+      <div class="about-body"><p>${cnt.about.p1}</p><p>${cnt.about.p2}</p></div>
+      <button class="btn-primary" onclick="pg('tentang-jaranan')" style="margin-top:0.5rem;">${escHtml(cnt.about.cta)}</button>`;
+  }
+
+  // ── Feature items ──
+  const featBox = document.getElementById('cms-feat-box');
+  if (featBox && cnt.features) {
+    featBox.innerHTML = cnt.features.map(f =>
+      `<div class="feat-item">
+        <div class="feat-icon" style="background:${f.bg};color:${f.fg};">${f.icon}</div>
+        <div><div class="feat-title">${escHtml(f.title)}</div><div class="feat-desc">${f.desc}</div></div>
+      </div>`
+    ).join('');
+  }
+
+  // ── Stats band ──
+  const statsRow = document.getElementById('cms-stats-row');
+  if (statsRow && cnt.stats) {
+    const cls = ['d1','d2','d3','d4'];
+    const totEl = document.getElementById('statTotal');
+    const totVal = totEl ? totEl.textContent : '—';
+    statsRow.innerHTML = cnt.stats.map((s, i) =>
+      `<div class="rv ${cls[i]}">
+        <div class="stat-num"${i===0?' id="statTotal"':''}>${i===0 ? totVal : escHtml(s.num||'')}</div>
+        <div class="stat-lbl">${escHtml(s.label)}</div>
+      </div>`
+    ).join('');
+  }
+
+  // ── Footer brand ──
+  const fb = document.getElementById('cms-footer-brand');
+  if (fb) fb.textContent = cnt.footer.brand_desc;
+
+  const fc = document.getElementById('cms-footer-copyright');
+  if (fc) fc.textContent = cnt.footer.copyright;
+
+  const fr = document.getElementById('cms-footer-related');
+  if (fr && cnt.footer.related) {
+    fr.innerHTML = cnt.footer.related.map(l =>
+      `<li><a href="${l.url}" target="_blank" rel="noopener">${escHtml(l.text)} ↗</a></li>`
+    ).join('');
+  }
+
+  const fi = document.getElementById('cms-footer-instansi');
+  if (fi && cnt.footer.instansi) {
+    fi.innerHTML = cnt.footer.instansi.map(l =>
+      `<li><a href="${l.url}" target="_blank" rel="noopener">${escHtml(l.text)} ↗</a></li>`
+    ).join('');
+  }
+
+  // ── Tentang Naskah ──
+  const tnh = document.getElementById('cms-tn-heading');
+  const tnb = document.getElementById('cms-tn-body');
+  if (tnh) tnh.textContent = cnt.tentang_naskah.heading;
+  if (tnb) tnb.innerHTML  = cnt.tentang_naskah.paragraphs.map(p => `<p>${p}</p>`).join('');
+
+  // ── Tentang JARANAN ──
+  const tjh = document.getElementById('cms-tj-heading');
+  const tjb = document.getElementById('cms-tj-body');
+  if (tjh) tjh.textContent = cnt.tentang_jaranan.heading;
+  if (tjb) tjb.innerHTML  = cnt.tentang_jaranan.paragraphs.map(p => `<p>${p}</p>`).join('');
+
+  // ── Kontak ──
+  const kh = document.getElementById('cms-kontak-heading');
+  if (kh) kh.textContent = cnt.kontak.heading;
+  const kc = document.getElementById('cms-kontak-cards');
+  if (kc && cnt.kontak.cards) {
+    kc.innerHTML = cnt.kontak.cards.map(card => {
+      let rows = '';
+      if (card.alamat)  rows += `<div class="kontak-row"><span class="kontak-ic">📍</span><span>${escHtml(card.alamat)}</span></div>`;
+      if (card.telepon) rows += `<div class="kontak-row"><span class="kontak-ic">📞</span><span>${escHtml(card.telepon)}</span></div>`;
+      if (card.email)   rows += `<div class="kontak-row"><span class="kontak-ic">✉️</span><a href="mailto:${escHtml(card.email)}" style="color:var(--blue);">${escHtml(card.email)}</a></div>`;
+      if (card.jam)     rows += `<div class="kontak-row"><span class="kontak-ic">🕒</span><span>${escHtml(card.jam)}</span></div>`;
+      return `<div class="kontak-card"><h3>${escHtml(card.title)}</h3>${rows}</div>`;
+    }).join('');
+  }
+}
+
 /* ===========================================================
    DATA — Mock (Ganti dengan Supabase nanti)
    TODO: const { data } = await supabase.from('manuscripts').select('*')
@@ -1431,14 +1639,21 @@ const SLIDER_DELAY = 5000;
 function sliderGo(idx) {
   const slides = document.querySelectorAll('.hero-slide');
   const dots   = document.querySelectorAll('#sliderDots .hdot');
-  if (!slides.length || idx === _sliderIdx) return;
+  if (!slides.length) return;
+
+  // Lewati slide yang dinonaktifkan
+  let target = ((idx % slides.length) + slides.length) % slides.length;
+  let tries  = slides.length;
+  while (slides[target]?.classList.contains('sl-disabled') && tries-- > 0) {
+    target = (target + 1) % slides.length;
+  }
+  if (target === _sliderIdx) return;
 
   const cur = slides[_sliderIdx];
-  cur.classList.add('sl-exit');
-  cur.classList.remove('active');
-  setTimeout(() => cur.classList.remove('sl-exit'), 700);
+  if (cur) { cur.classList.add('sl-exit'); cur.classList.remove('active'); }
+  setTimeout(() => cur?.classList.remove('sl-exit'), 700);
 
-  _sliderIdx = ((idx % slides.length) + slides.length) % slides.length;
+  _sliderIdx = target;
   slides[_sliderIdx].classList.add('active');
   dots.forEach((d, i) => d.classList.toggle('on', i === _sliderIdx));
 
@@ -1466,8 +1681,19 @@ function initSlider() {
 /* ===========================================================
    SEARCH & FILTER
 =========================================================== */
+function logSearch(q) {
+  if (!q) return;
+  try {
+    const log = JSON.parse(localStorage.getItem('jaranan_search_log') || '[]');
+    log.unshift({ term: q.toLowerCase().trim(), ts: Date.now() });
+    if (log.length > 500) log.length = 500;
+    localStorage.setItem('jaranan_search_log', JSON.stringify(log));
+  } catch(e) {}
+}
+
 function doSearch() {
   const q       = (document.getElementById('sInput')?.value  || '').toLowerCase().trim();
+  if (q) logSearch(q);
   const fMedia  =  document.getElementById('fMedia')?.value  || '';
   const fAksara =  document.getElementById('fAksara')?.value || '';
   const fBahasa =  document.getElementById('fBahasa')?.value || '';
@@ -1616,9 +1842,18 @@ function applyDynamicSlides() {
     if (!slides.length) return;
 
     const heroSlides = document.querySelectorAll('.hero-slide');
+    const dots       = document.querySelectorAll('#sliderDots .hdot');
+
     heroSlides.forEach((el, i) => {
       const sl = slides[i];
       if (!sl) return;
+
+      // Terapkan status aktif/nonaktif
+      const isAktif = sl.aktif !== false;
+      el.classList.toggle('sl-disabled', !isAktif);
+      if (dots[i]) dots[i].style.display = isAktif ? '' : 'none';
+      if (!isAktif) return; // skip update konten untuk slide nonaktif
+
       // Background gambar
       if (sl.gambar) {
         el.style.backgroundImage = `url('${sl.gambar}')`;
@@ -1634,11 +1869,30 @@ function applyDynamicSlides() {
         const p = el.querySelector('.hero-inst');
         if (p) p.textContent = sl.subjudul;
       }
-      if (sl.tagline) {
+      if (sl.tagline !== undefined) {
         const t = el.querySelector('.hero-tagline');
-        if (t) t.textContent = sl.tagline;
+        if (t) {
+          if (sl.tagline) t.textContent = sl.tagline;
+          const f = sl.tagline_fmt || {};
+          t.style.fontWeight     = f.bold      ? 'bold'      : '';
+          t.style.fontStyle      = f.italic    ? 'italic'    : '';
+          t.style.textDecoration = f.underline ? 'underline' : '';
+        }
       }
     });
+
+    // Reset slider ke slide aktif pertama
+    let firstActive = 0;
+    for (let i = 0; i < heroSlides.length; i++) {
+      if (!heroSlides[i].classList.contains('sl-disabled')) { firstActive = i; break; }
+    }
+    heroSlides.forEach(s => s.classList.remove('active', 'sl-exit'));
+    clearInterval(_sliderTmr);
+    _sliderIdx = firstActive;
+    heroSlides[_sliderIdx].classList.add('active');
+    dots.forEach((d, i) => d.classList.toggle('on', i === _sliderIdx));
+    _sliderTmr = setInterval(sliderNext, SLIDER_DELAY);
+
   } catch(e) {}
 }
 
@@ -1649,10 +1903,25 @@ window.addEventListener('load', () => {
   const saved = localStorage.getItem('jaranan-theme') || 'parchment';
   document.documentElement.setAttribute('data-theme', saved);
   syncThemeBtn(saved);
+
+  // Tampilkan floating admin button jika sesi masih aktif
+  (function() {
+    try {
+
+      const s = JSON.parse(localStorage.getItem('jaranan_session') || '{}');
+      if (s.email && s.ts && (Date.now() - s.ts < 8 * 60 * 60 * 1000)) {
+        const btn = document.getElementById('adminFloatBtn');
+        if (btn) btn.style.display = 'flex';
+      }
+    } catch(e) {}
+  })();
+
+  applyContent();
   renderHomeCards();
   rvInit();
   initSlider();
   applyDynamicSlides();
+  doSearch();
 });
 </script>
 </body>

@@ -176,13 +176,23 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-  </style>
+  
+    .btn-admin-shortcut {
+      display: none; font-size: 0.72rem; font-weight: 700;
+      background: var(--gold-btn); color: #fff;
+      border: none; padding: 0.32rem 0.85rem; border-radius: 999px;
+      cursor: pointer; letter-spacing: 0.04em; transition: opacity 0.2s;
+      text-decoration: none;
+    }
+    .btn-admin-shortcut:hover { opacity: 0.85; }
+    .btn-admin-shortcut.on { display: inline-block; }
+</style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="topbar-brand">
-    <img src="assets/img/logo-dispussipda.jpeg" alt="Logo Dispussipda" class="brand-logo">
+    <img src="assets/img/logo-dispussipda.png" alt="Logo Dispussipda" class="brand-logo">
     <div>
       <div class="topbar-title">JARANAN</div>
       <div class="topbar-sub">Dispussipda Kota Malang</div>
@@ -190,6 +200,7 @@
   </div>
   <div class="topbar-nav">
     <a class="nav-lnk" href="index.html"><span class="arr">←</span> Beranda</a>
+    <a class="btn-admin-shortcut" id="btnAdminShortcut" href="admin.html">⚙ Panel Admin</a>
     <button class="btn-theme-sm" id="themeBtn" onclick="toggleTheme()">
       <svg id="themeBtnIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <span id="themeBtnLabel">Heritage</span>
@@ -362,6 +373,17 @@ function toggleTheme() {
   syncThemeBtn(next);
 }
 window.addEventListener('load', () => {
+
+  // Cek sesi admin — tampilkan shortcut jika masih aktif
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('jaranan_session') || '{}');
+      if (s.email && s.ts && (Date.now() - s.ts < 8 * 60 * 60 * 1000)) {
+        const btn = document.getElementById('btnAdminShortcut');
+        if (btn) btn.classList.add('on');
+      }
+    } catch(e) {}
+  })();
   const saved = localStorage.getItem('jaranan-theme') || 'parchment';
   document.documentElement.setAttribute('data-theme', saved);
   syncThemeBtn(saved);
