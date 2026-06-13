@@ -239,7 +239,6 @@
     .slider-arrow svg { width: 15px; height: 15px; }
     .sl-prev { left: clamp(0.65rem,2.5vw,2.5rem); }
     .sl-next { right: clamp(0.65rem,2.5vw,2.5rem); }
-    @media (max-width: 700px) { .slider-arrow { width: 34px; height: 34px; } }
 
     .hero-watermark {
       position: absolute; top: 50%; left: 50%;
@@ -757,21 +756,93 @@
     /* ===========================
        RESPONSIVE
     =========================== */
+    /* ===========================================
+       RESPONSIVE — TABLET (≤900px)
+    =========================================== */
     @media (max-width: 900px) {
       .detail-grid { grid-template-columns: 1fr; }
       .detail-sticky { position: static; }
       .detail-img-box { aspect-ratio: 4/3; max-width: 420px; }
       .about-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      /* Katalog */
+      .section-hd { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .card-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+      /* Stats */
+      .stats-row { flex-wrap: wrap; justify-content: center; gap: 1.25rem; }
+      .stat-item { min-width: 120px; }
     }
+
+    /* ===========================================
+       RESPONSIVE — MOBILE (≤700px)
+    =========================================== */
     @media (max-width: 700px) {
       .nav-links, .btn-login-nav, .btn-dev { display: none; }
       .hamburger { display: flex; }
+      /* Sembunyikan theme toggle di mobile — cukup hamburger */
+      .btn-theme { display: none; }
+      /* Hero */
+      .hero { min-height: 88vw; padding: 5rem 1.25rem 3rem; }
+      .hero-content { text-align: center; }
+      .hero-chip { font-size: 0.7rem; }
+      .hero-inst { font-size: 0.82rem; }
+      .hero-tagline { font-size: 0.88rem; }
+      /* Slider arrows lebih kecil */
+      .slider-arrow { width: 30px; height: 30px; font-size: 0.82rem; opacity: 0.65; }
+      /* Stats 2×2 grid */
+      .stats-row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem 1.5rem;
+        justify-items: center;
+      }
+      /* Sections */
+      section, .page-section { padding: 2.5rem 1.25rem; }
+      .section-title { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+      /* Feature boxes */
+      .feat-grid { grid-template-columns: 1fr !important; gap: 1rem; }
+      /* Card grid */
+      .card-grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 0.9rem; }
+      /* Detail page */
+      .detail-meta-table td { font-size: 0.78rem; padding: 0.4rem 0.5rem; }
+      /* About */
+      .about-content { font-size: 0.9rem; }
+      /* Footer */
+      .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      /* Search/filter bar */
+      .table-bar, .filter-bar { flex-direction: column; gap: 0.5rem; }
+      .table-bar input, .filter-bar input,
+      .table-bar select, .filter-bar select { width: 100%; }
     }
+
+    /* ===========================================
+       RESPONSIVE — SMALL MOBILE (≤480px)
+    =========================================== */
     @media (max-width: 480px) {
       .hero-btns { flex-direction: column; align-items: center; }
       .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; }
-      .stats-row { gap: 1rem; }
+      .stats-row { gap: 0.75rem 1.25rem; }
+      .stat-num { font-size: clamp(1.6rem, 7vw, 2.4rem); }
+      /* Navbar brand */
+      .brand-title { font-size: 0.95rem; }
+      .brand-sub { display: none; }
+      .brand-logo { height: 26px; }
+      /* Cards */
+      .card-grid { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+      .ms-card-title { font-size: 0.82rem; }
+      .ms-card-meta { font-size: 0.7rem; }
+      /* Modals */
+      .modal-box, .rv-panel { margin: 1rem; padding: 1.25rem; }
+      /* Section padding */
+      section, .page-section { padding: 2rem 1rem; }
+    }
+
+    /* ===========================================
+       RESPONSIVE — VERY SMALL (≤360px)
+    =========================================== */
+    @media (max-width: 360px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .hero { padding: 4.5rem 1rem 2.5rem; }
     }
 
     /* Scrollbar */
@@ -819,6 +890,7 @@
   <a onclick="pg('tentang-naskah');closeMenu()">Tentang Naskah Kuno</a>
   <a onclick="pg('tentang-jaranan');closeMenu()">Tentang Jaranan</a>
   <a onclick="pg('kontak');closeMenu()">Kontak</a>
+  <a onclick="toggleTheme();closeMenu()" style="color:var(--text3);">🌙 Ganti Tema</a>
 </div>
 
 <main>
@@ -1676,6 +1748,17 @@ function initSlider() {
     if (e.key === 'ArrowLeft')  sliderPrev();
     if (e.key === 'ArrowRight') sliderNext();
   });
+  // Touch swipe support
+  const heroEl = document.querySelector('#heroSection');
+  if (heroEl) {
+    let _touchStartX = 0;
+    heroEl.addEventListener('touchstart', e => { _touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    heroEl.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - _touchStartX;
+      if (Math.abs(dx) < 40) return; // ignore short taps
+      if (dx < 0) sliderNext(); else sliderPrev();
+    }, { passive: true });
+  }
 }
 
 /* ===========================================================
@@ -1837,7 +1920,7 @@ function closeMenu() {
 function applyDynamicSlides() {
   try {
     const stored = localStorage.getItem('jaranan_slides');
-    if (!stored) return; // pakai slide HTML default
+    if (!stored) return;
     const slides = JSON.parse(stored);
     if (!slides.length) return;
 
@@ -1848,19 +1931,16 @@ function applyDynamicSlides() {
       const sl = slides[i];
       if (!sl) return;
 
-      // Terapkan status aktif/nonaktif
       const isAktif = sl.aktif !== false;
       el.classList.toggle('sl-disabled', !isAktif);
       if (dots[i]) dots[i].style.display = isAktif ? '' : 'none';
-      if (!isAktif) return; // skip update konten untuk slide nonaktif
+      if (!isAktif) return;
 
-      // Background gambar
       if (sl.gambar) {
         el.style.backgroundImage = `url('${sl.gambar}')`;
         el.style.backgroundSize = 'cover';
         el.style.backgroundPosition = 'center';
       }
-      // Teks dari admin
       if (sl.judul) {
         const h = el.querySelector('.hero-h1');
         if (h) { h.removeAttribute('style'); h.textContent = sl.judul; }
@@ -1881,7 +1961,6 @@ function applyDynamicSlides() {
       }
     });
 
-    // Reset slider ke slide aktif pertama
     let firstActive = 0;
     for (let i = 0; i < heroSlides.length; i++) {
       if (!heroSlides[i].classList.contains('sl-disabled')) { firstActive = i; break; }
@@ -1904,10 +1983,8 @@ window.addEventListener('load', () => {
   document.documentElement.setAttribute('data-theme', saved);
   syncThemeBtn(saved);
 
-  // Tampilkan floating admin button jika sesi masih aktif
   (function() {
     try {
-
       const s = JSON.parse(localStorage.getItem('jaranan_session') || '{}');
       if (s.email && s.ts && (Date.now() - s.ts < 8 * 60 * 60 * 1000)) {
         const btn = document.getElementById('adminFloatBtn');
